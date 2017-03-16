@@ -49,4 +49,29 @@ public class Histogramme extends ShortPixmap {
         /* on prend la 5e valeur du vecteur car notre vecteur contient ici 
          toujours 9 valeurs */
     }
+
+    public void filtreNagao() {
+        for (int i = 2; i < width - 2; i++) {
+            for (int j = 2; j < height - 2; j++) {
+                // utiliser les 3 petits points de java
+            }
+        }
+    }
+
+    public double getMean(short[] v) {
+        double sum = 0.0;
+        for (short a : v) {
+            sum += a;
+        }
+        return sum / v.length;
+    }
+
+    public double getVariance(short[] v) {
+        double mean = getMean(v);
+        double temp = 0;
+        for (short a : v) {
+            temp += (a - mean) * (a - mean);
+        }
+        return temp / v.length;
+    }
 }
