@@ -14,11 +14,13 @@ public class Main {
     
     public static void main(String[] args) {
         // test de lecture et d'écriture d'un fichier pgm
-        ShortPixmap p1;
+        ShortPixmap p1, p2;
         try {
             p1 = new ShortPixmap("aerial1.pgm");
+            p2 = new ShortPixmap("cuadrado3.pgm");
         } catch (IOException e) {
             p1 = null;
+            p2 = null;
             System.exit(0);
         }
         //p1.write("test.pgm");
@@ -40,7 +42,7 @@ public class Main {
         h1.write("resultatMedian.pgm");
         */
         //MyClassPGM.etirementHisto(p1,"resultatEtirement.pgm");
-        MyClassPGM.egalisationHisto(p1,"resultatEgalisation.pgm");
-
+        //MyClassPGM.egalisationHisto(p1,"resultatEgalisation.pgm");
+        MyClassPGM.specificationHisto(p1, p2, "resultatSpecification.pgm");
     }
 }
