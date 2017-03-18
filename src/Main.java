@@ -16,14 +16,15 @@ public class Main {
         // test de lecture et d'écriture d'un fichier pgm
         ShortPixmap p1;
         try {
-            p1 = new ShortPixmap("cuadrado3.pgm");
+            p1 = new ShortPixmap("aerial1.pgm");
         } catch (IOException e) {
             p1 = null;
             System.exit(0);
         }
-        p1.write("test.pgm");
+        //p1.write("test.pgm");
 
         // test de lecture et d'écriture d'un fichier ppm
+        /*
         ByteRGBPixmap rgb1;
         try {
             rgb1 = new ByteRGBPixmap("Lena.512.ppm");
@@ -37,7 +38,9 @@ public class Main {
         Histogramme h1 = new Histogramme(p1);
         h1.filtreMedian();
         h1.write("resultatMedian.pgm");
+        */
+        //MyClassPGM.etirementHisto(p1,"resultatEtirement.pgm");
+        MyClassPGM.egalisationHisto(p1,"resultatEgalisation.pgm");
 
-        MyClassPGM.etirementHisto(p1,"resultatEtirement.pgm");
     }
 }

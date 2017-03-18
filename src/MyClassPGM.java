@@ -29,14 +29,24 @@ public class MyClassPGM {
             i--;
         }
         max=i;
-        System.out.println(max+" ; "+min);
-        for(int k =0 ; k < csp.data.length ; k++) {
+        for(int k =0 ; k < csp.size ; k++) {
             csp.data[k] = (short) ((255/(max-min))*(sp.data[k]-min));
         }
         csp.write(file);
     }
 
     public static void egalisationHisto(ShortPixmap sp, String file) {
-
+        ShortPixmap csp = new ShortPixmap(sp); //Clonage pour ne pas modif l'image initial
+        short[] hist = getHistogramme(csp);
+        double[] hist2 = new double[256];
+        double tmp = 0;
+        for(int i = 0 ; i < 256 ; i++) {
+            tmp += (double)hist[i]/(double)sp.size;
+            hist2[i] = tmp;
+        }
+        for(int i = 0 ; i < csp.size ; i++) {
+            csp.data[i] = (short) (hist2[csp.data[i]]*255);
+        }
+        csp.write(file);
     }
 }
