@@ -43,6 +43,7 @@ public class Main {
         */
         //MyClassPGM.etirementHisto(p1,"resultatEtirement.pgm");
         //MyClassPGM.egalisationHisto(p1,"resultatEgalisation.pgm");
-        MyClassPGM.specificationHisto(p1, p2, "resultatSpecification.pgm");
+        //MyClassPGM.specificationHisto(p1, p2, "resultatSpecification.pgm");
+        new MyInterfaceGraphique();
     }
 }
