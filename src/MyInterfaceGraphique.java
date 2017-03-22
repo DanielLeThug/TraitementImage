@@ -15,7 +15,7 @@ public class MyInterfaceGraphique extends JFrame {
     private ShortPixmap pgm = null;
     private ByteRGBPixmap ppm = null;
 
-    private BufferedImage bufferImage(ShortPixmap pgm) {
+    private BufferedImage bufferImagePGM(ShortPixmap pgm) {
         BufferedImage img = new BufferedImage(pgm.width, pgm.height,BufferedImage.TYPE_INT_RGB);
         for(int i = 0 ; i < pgm.width ; i++) {
             for(int j = 0 ; j < pgm.height ; j++) {
@@ -25,6 +25,23 @@ public class MyInterfaceGraphique extends JFrame {
         }
         return img;
     }
+
+    private BufferedImage bufferImagePPM(ByteRGBPixmap ppm) {
+        BufferedImage img = new BufferedImage(ppm.width, ppm.height,BufferedImage.TYPE_INT_RGB);
+        short[] red = ppm.r.getShorts();
+        short[] green = ppm.g.getShorts();
+        short[] blue = ppm.b.getShorts();
+        for(int i = 0 ; i < ppm.width ; i++) {
+            for(int j = 0 ; j < ppm.height ; j++) {
+                short redpix = red[j * ppm.width + i];
+                short greenpix = green[j * ppm.width + i];
+                short bluepix = blue[j * ppm.width + i];
+                img.setRGB(i, j, new Color(redpix, greenpix, bluepix).getRGB());
+            }
+        }
+        return img;
+    }
+
 
     private MenuBar mb;
 
@@ -46,6 +63,7 @@ public class MyInterfaceGraphique extends JFrame {
     public MyInterfaceGraphique() {
         super("Ida et Chackal");
 
+        label = new JLabel();
 
         mb = new MenuBar();
 
@@ -66,10 +84,9 @@ public class MyInterfaceGraphique extends JFrame {
                         try {
                             ppm = null;
                             pgm = new ShortPixmap(fc.getSelectedFile().getAbsolutePath());
+                            label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
+                            //label = new JLabel(new ImageIcon(bufferImagePGM(pgm)));
 
-                            label = new JLabel(new ImageIcon(bufferImage(pgm)));
-
-                            add(label);
                             setPreferredSize(new Dimension(pgm.width+50, pgm.height+80));
                             pack();
 
@@ -85,6 +102,11 @@ public class MyInterfaceGraphique extends JFrame {
                         try {
                             pgm = null;
                             ppm = new ByteRGBPixmap(fc.getSelectedFile().getAbsolutePath());
+                            label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
+                            //label = new JLabel(new ImageIcon(bufferImagePPM(ppm)));
+                            setPreferredSize(new Dimension(ppm.width+50, ppm.height+80));
+                            pack();
+
 
                             mEdit.setEnabled(true);
                             miSave.setEnabled(true);
@@ -137,6 +159,8 @@ public class MyInterfaceGraphique extends JFrame {
         mb.add(mEdit);
         setMenuBar(mb);
 
+        label.setHorizontalAlignment(JLabel.CENTER);
+        add(label);
 
         // Seulement quand aucun fichier est ouvert
         mEdit.setEnabled(false);
