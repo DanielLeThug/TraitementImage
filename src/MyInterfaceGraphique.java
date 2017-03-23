@@ -92,7 +92,7 @@ public class MyInterfaceGraphique extends JFrame {
                 fc.setDragEnabled(false);
                 int returnval = fc.showOpenDialog(getParent());
                 if (returnval == JFileChooser.APPROVE_OPTION) {
-                    if (fc.getSelectedFile().toString().contains("pgm")) {
+                    if (fc.getSelectedFile().toString().endsWith(".pgm")) {
                         try {
                             ppm = null;
                             pgm = new ShortPixmap(fc.getSelectedFile().getAbsolutePath());
@@ -109,7 +109,7 @@ public class MyInterfaceGraphique extends JFrame {
                         }
                     }
 
-                    if (fc.getSelectedFile().toString().contains("ppm")) {
+                    if (fc.getSelectedFile().toString().endsWith(".ppm")) {
                         try {
                             pgm = null;
                             ppm = new ByteRGBPixmap(fc.getSelectedFile().getAbsolutePath());
@@ -258,6 +258,41 @@ public class MyInterfaceGraphique extends JFrame {
             }
         };
         miEgalisation.addActionListener(alEgalisation);
+
+        ActionListener alSpecification = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (pgm != null) {
+                    ShortPixmap tmp = null;
+                    JFileChooser fc = new JFileChooser();
+                    FileNameExtensionFilter filter = new FileNameExtensionFilter("PGM Images","pgm");
+                    fc.setFileFilter(filter);
+                    fc.setDialogTitle("Open");
+                    fc.setCurrentDirectory(new File("./"));
+                    fc.setApproveButtonText("Open");
+                    fc.setDragEnabled(false);
+                    int returnval = fc.showOpenDialog(getParent());
+                    if (returnval == JFileChooser.APPROVE_OPTION) {
+                        if (fc.getSelectedFile().toString().endsWith(".pgm")) {
+                            try {
+                                tmp = new ShortPixmap(fc.getSelectedFile().getAbsolutePath());
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
+                            }
+                            pgm = MyClassPGM.specificationHisto(pgm, tmp);
+                            label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Mauvais format de fichier", "Warning", JOptionPane.WARNING_MESSAGE);
+                        }
+                    }
+                } else if (ppm != null) {
+                    //ByteRGBPixmap tmp;
+                    //ppm = MyClassPPM.specificationHisto(ppm, tmp);
+                    //label.setIcon(new ImageIcon(bufferImagePGM(ppm)));
+                }
+            }
+        };
+        miSpecification.addActionListener(alSpecification);
 
 
         mFiltre = new JMenu("Filtres");

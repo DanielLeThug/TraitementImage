@@ -48,7 +48,7 @@ public class MyClassPGM {
         return sp;
     }
 
-    public static ShortPixmap specificationHisto(ShortPixmap spToModif, ShortPixmap sp, String file) {
+    public static ShortPixmap specificationHisto(ShortPixmap spToModif, ShortPixmap sp) {
         short[] hist1 = getHistogramme(spToModif);
         short[] hist2 = getHistogramme(sp);
         double[] hist3 = new double[256];
