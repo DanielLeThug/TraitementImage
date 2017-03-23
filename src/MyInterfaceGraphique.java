@@ -45,18 +45,24 @@ public class MyInterfaceGraphique extends JFrame {
     }
 
 
-    private MenuBar mb;
+    private JMenuBar mb;
 
-    private Menu mFile;
-    private MenuItem miOpen;
-    private MenuItem miSave;
-    private MenuItem miSaveAs;
-    private MenuItem miClose;
+    private JMenu mFile;
+    private JMenuItem miOpen;
+    private JMenuItem miSave;
+    private JMenuItem miSaveAs;
+    private JMenuItem miClose;
 
-    private Menu mEdit;
-    private MenuItem miHisto;
-    private MenuItem miEtirement;
-    private MenuItem miEgalisation;
+    private JMenu mEdit;
+    private JMenu mHisto;
+    private JMenu mFiltre;
+    private JMenuItem miHisto;
+    private JMenuItem miEtirement;
+    private JMenuItem miEgalisation;
+    private JMenuItem miSpecification;
+    private JMenuItem miNagao;
+    private JMenuItem miMedian;
+    private JMenuItem miOtsu;
 
 
     private JLabel label;
@@ -67,11 +73,11 @@ public class MyInterfaceGraphique extends JFrame {
 
         label = new JLabel();
 
-        mb = new MenuBar();
+        mb = new JMenuBar();
 
-        mFile = new Menu("File");
+        mFile = new JMenu("File");
 
-        miOpen = new MenuItem("Open");
+        miOpen = new JMenuItem("Open");
         //Add actions ?
         ActionListener alOpen = new ActionListener() {
             @Override
@@ -126,7 +132,7 @@ public class MyInterfaceGraphique extends JFrame {
         miOpen.addActionListener(alOpen);
         mFile.add(miOpen);
 
-        miSave = new MenuItem("Save");
+        miSave = new JMenuItem("Save");
         ActionListener alSave = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -142,7 +148,7 @@ public class MyInterfaceGraphique extends JFrame {
         miSave.addActionListener(alSave);
         mFile.add(miSave);
 
-        miSaveAs = new MenuItem("Save as");
+        miSaveAs = new JMenuItem("Save as");
         ActionListener alSaveAs = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -186,7 +192,7 @@ public class MyInterfaceGraphique extends JFrame {
         miSaveAs.addActionListener(alSaveAs);
         mFile.add(miSaveAs);
 
-        miClose = new MenuItem("Close");
+        miClose = new JMenuItem("Close");
         //Add Actions ?
         ActionListener alClose = new ActionListener() {
             @Override
@@ -200,19 +206,54 @@ public class MyInterfaceGraphique extends JFrame {
         miClose.addActionListener(alClose);
         mFile.add(miClose);
 
+        /*
+        private JMenu mEdit;
+        private JMenu mHisto;
+        private JMenu mFiltre;
+        private JMenuItem miHisto;
+        private JMenuItem miEtirement;
+        private JMenuItem miEgalisation;
+        private JMenuItem miSpecification;
+        private JMenuItem miNagao;
+        private JMenuItem miMedian;
+        private JMenuItem miOtsu;
+         */
 
-        mEdit = new Menu("Edit");
-        miHisto = new MenuItem("Histogramme");
-        miEtirement = new MenuItem("Étirement");
-        miEgalisation = new MenuItem("Égalisation");
+        mEdit = new JMenu("Edit");
 
-        mEdit.add(miHisto);
-        mEdit.add(miEtirement);
-        mEdit.add(miEgalisation);
+        mHisto = new JMenu("Histo"); // A MODIFIER
+        miHisto = new JMenuItem("Histogramme");
+        miEtirement = new JMenuItem("Étirement");
+        miEgalisation = new JMenuItem("Égalisation");
+        miSpecification = new JMenuItem("Spécification");
+
+        // ACTIONLISTENER TO DO
+
+        mFiltre = new JMenu("Filtres");
+        miMedian = new JMenuItem("Médian");
+        miNagao = new JMenuItem("Nagao");
+
+        // ACTIONLISTENER TO DO
+
+        miOtsu = new JMenuItem("Otsu");
+
+        // ACTIONLISTENER TO DO
+
+        mHisto.add(miHisto);
+        mHisto.add(miEtirement);
+        mHisto.add(miEgalisation);
+        mHisto.add(miSpecification);
+
+        mFiltre.add(miMedian);
+        mFiltre.add(miNagao);
+
+        mEdit.add(mHisto);
+        mEdit.add(mFiltre);
+        mEdit.add(miOtsu);
 
         mb.add(mFile);
         mb.add(mEdit);
-        setMenuBar(mb);
+        setJMenuBar(mb);
 
         label.setHorizontalAlignment(JLabel.CENTER);
         add(label);

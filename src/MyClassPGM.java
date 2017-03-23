@@ -15,8 +15,7 @@ public class MyClassPGM {
     }
 
     public static void etirementHisto(ShortPixmap sp, String file) {
-        ShortPixmap csp = new ShortPixmap(sp); //Clonage pour ne pas modif l'image initial
-        short[] hist = getHistogramme(csp);
+        short[] hist = getHistogramme(sp);
         double max,min;
 
         short i=0;
@@ -29,25 +28,24 @@ public class MyClassPGM {
             i--;
         }
         max=i;
-        for(int k =0 ; k < csp.size ; k++) {
-            csp.data[k] = (short) ((255/(max-min))*(sp.data[k]-min));
+        for(int k =0 ; k < sp.size ; k++) {
+            sp.data[k] = (short) ((255/(max-min))*(sp.data[k]-min));
         }
-        csp.write(file);
+        sp.write(file);
     }
 
     public static void egalisationHisto(ShortPixmap sp, String file) {
-        ShortPixmap csp = new ShortPixmap(sp); //Clonage pour ne pas modif l'image initial #Je sais pas si c'est utile
-        short[] hist = getHistogramme(csp);
+        short[] hist = getHistogramme(sp);
         double[] hist2 = new double[256];
         double tmp = 0;
         for(int i = 0 ; i < 256 ; i++) {
             tmp += (double)hist[i]/(double)sp.size;
             hist2[i] = tmp;
         }
-        for(int i = 0 ; i < csp.size ; i++) {
-            csp.data[i] = (short) (hist2[csp.data[i]]*255);
+        for(int i = 0 ; i < sp.size ; i++) {
+            sp.data[i] = (short) (hist2[sp.data[i]]*255);
         }
-        csp.write(file);
+        sp.write(file);
     }
 
     public static void specificationHisto(ShortPixmap spToModif, ShortPixmap sp, String file) {
