@@ -222,8 +222,10 @@ public class MyInterfaceGraphique extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (pgm != null) {
                     //pgm = MyClassPGM.histogramme();
+                    //label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
                 } else if (ppm != null) {
                     //ppm = MyClassPPM.histogramme();
+                    //label.setIcon(new ImageIcon(bufferImagePGM(ppm)));
                 }
             }
         };
@@ -242,6 +244,21 @@ public class MyInterfaceGraphique extends JFrame {
             }
         };
         miEtirement.addActionListener(alEtirement);
+
+        ActionListener alEgalisation = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (pgm != null) {
+                    pgm = MyClassPGM.egalisationHisto(pgm);
+                    label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
+                } else if (ppm != null) {
+                    //ppm = MyClassPPM.egalisationHisto(ppm);
+                    //label.setIcon(new ImageIcon(bufferImagePGM(ppm)));
+                }
+            }
+        };
+        miEgalisation.addActionListener(alEgalisation);
+
 
         mFiltre = new JMenu("Filtres");
         miMedian = new JMenuItem("Médian");
