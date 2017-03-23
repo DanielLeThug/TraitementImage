@@ -301,6 +301,20 @@ public class MyInterfaceGraphique extends JFrame {
 
         // ACTIONLISTENER TO DO
 
+        ActionListener alMedian = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (pgm != null) {
+                    pgm = MyClassPGM.filtreMedian(pgm);
+                    label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
+                } else if (ppm != null) {
+                    //ppm = MyClassPPM.filtreMedian(ppm);
+                    //label.setIcon(new ImageIcon(bufferImagePGM(ppm)));
+                }
+            }
+        };
+        miMedian.addActionListener(alMedian);
+
         miOtsu = new JMenuItem("Otsu");
 
         // ACTIONLISTENER TO DO

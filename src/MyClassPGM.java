@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /**
  * Created by Simon on 18/03/2017.
  */
@@ -84,4 +86,29 @@ public class MyClassPGM {
         }
         return spToModif;
     }
+
+    public static ShortPixmap filtreMedian(ShortPixmap sp) { // on peut mettre le nombre de cases en param
+        short[] v = new short[9];
+        short r = 0;
+        for (int i = 1; i < sp.width - 1; i++) {
+            for (int j = 1; j < sp.height - 1; j++) {
+                r = 0;
+                for (int k = i - 1; k < i + 2; k++) {
+                    for (int l = j - 1; l < j + 2; l++) {
+                        v[r++] = sp.data[l * sp.width + k];
+                    }
+                }
+                sp.data[j * sp.width + i] = valeurMediane(v);
+            }
+        }
+        return sp;
+    }
+
+    public static short valeurMediane(short[] v) {
+        Arrays.sort(v);
+        return v[4];
+        /* on prend la 5e valeur du vecteur car notre vecteur contient ici
+         toujours 9 valeurs */
+    }
+
 }
