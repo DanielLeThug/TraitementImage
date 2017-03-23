@@ -206,18 +206,6 @@ public class MyInterfaceGraphique extends JFrame {
         miClose.addActionListener(alClose);
         mFile.add(miClose);
 
-        /*
-        private JMenu mEdit;
-        private JMenu mHisto;
-        private JMenu mFiltre;
-        private JMenuItem miHisto;
-        private JMenuItem miEtirement;
-        private JMenuItem miEgalisation;
-        private JMenuItem miSpecification;
-        private JMenuItem miNagao;
-        private JMenuItem miMedian;
-        private JMenuItem miOtsu;
-         */
 
         mEdit = new JMenu("Edit");
 
@@ -228,6 +216,32 @@ public class MyInterfaceGraphique extends JFrame {
         miSpecification = new JMenuItem("Spécification");
 
         // ACTIONLISTENER TO DO
+
+        ActionListener alHisto = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (pgm != null) {
+                    //pgm = MyClassPGM.histogramme();
+                } else if (ppm != null) {
+                    //ppm = MyClassPPM.histogramme();
+                }
+            }
+        };
+        miHisto.addActionListener(alHisto);
+
+        ActionListener alEtirement = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (pgm != null) {
+                    pgm = MyClassPGM.etirementHisto(pgm);
+                    label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
+                } else if (ppm != null) {
+                    //ppm = MyClassPPM.etirementHisto(ppm);
+                    //label.setIcon(new ImageIcon(bufferImagePGM(ppm)));
+                }
+            }
+        };
+        miEtirement.addActionListener(alEtirement);
 
         mFiltre = new JMenu("Filtres");
         miMedian = new JMenuItem("Médian");

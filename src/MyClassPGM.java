@@ -14,7 +14,7 @@ public class MyClassPGM {
         return hist;
     }
 
-    public static void etirementHisto(ShortPixmap sp, String file) {
+    public static ShortPixmap etirementHisto(ShortPixmap sp) {
         short[] hist = getHistogramme(sp);
         double max,min;
 
@@ -31,10 +31,10 @@ public class MyClassPGM {
         for(int k =0 ; k < sp.size ; k++) {
             sp.data[k] = (short) ((255/(max-min))*(sp.data[k]-min));
         }
-        sp.write(file);
+        return sp;
     }
 
-    public static void egalisationHisto(ShortPixmap sp, String file) {
+    public static ShortPixmap egalisationHisto(ShortPixmap sp) {
         short[] hist = getHistogramme(sp);
         double[] hist2 = new double[256];
         double tmp = 0;
@@ -45,10 +45,10 @@ public class MyClassPGM {
         for(int i = 0 ; i < sp.size ; i++) {
             sp.data[i] = (short) (hist2[sp.data[i]]*255);
         }
-        sp.write(file);
+        return sp;
     }
 
-    public static void specificationHisto(ShortPixmap spToModif, ShortPixmap sp, String file) {
+    public static ShortPixmap specificationHisto(ShortPixmap spToModif, ShortPixmap sp, String file) {
         short[] hist1 = getHistogramme(spToModif);
         short[] hist2 = getHistogramme(sp);
         double[] hist3 = new double[256];
@@ -82,7 +82,6 @@ public class MyClassPGM {
             }
             spToModif.data[i] = j;
         }
-
-        spToModif.write(file);
+        return spToModif;
     }
 }
