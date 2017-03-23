@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -14,6 +15,7 @@ public class MyInterfaceGraphique extends JFrame {
 
     private ShortPixmap pgm = null;
     private ByteRGBPixmap ppm = null;
+    private String path = null;
 
     private BufferedImage bufferImagePGM(ShortPixmap pgm) {
         BufferedImage img = new BufferedImage(pgm.width, pgm.height,BufferedImage.TYPE_INT_RGB);
@@ -78,6 +80,10 @@ public class MyInterfaceGraphique extends JFrame {
                 JFileChooser fc = new JFileChooser();
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("PPM & PGM Images","ppm","pgm");
                 fc.setFileFilter(filter);
+                fc.setDialogTitle("Open");
+                fc.setCurrentDirectory(new File("./"));
+                fc.setApproveButtonText("Open");
+                fc.setDragEnabled(false);
                 int returnval = fc.showOpenDialog(getParent());
                 if (returnval == JFileChooser.APPROVE_OPTION) {
                     if (fc.getSelectedFile().toString().contains("pgm")) {
@@ -85,7 +91,6 @@ public class MyInterfaceGraphique extends JFrame {
                             ppm = null;
                             pgm = new ShortPixmap(fc.getSelectedFile().getAbsolutePath());
                             label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
-                            //label = new JLabel(new ImageIcon(bufferImagePGM(pgm)));
 
                             setPreferredSize(new Dimension(pgm.width+50, pgm.height+80));
                             pack();
@@ -103,10 +108,9 @@ public class MyInterfaceGraphique extends JFrame {
                             pgm = null;
                             ppm = new ByteRGBPixmap(fc.getSelectedFile().getAbsolutePath());
                             label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
-                            //label = new JLabel(new ImageIcon(bufferImagePPM(ppm)));
+
                             setPreferredSize(new Dimension(ppm.width+50, ppm.height+80));
                             pack();
-
 
                             mEdit.setEnabled(true);
                             miSave.setEnabled(true);
@@ -115,10 +119,7 @@ public class MyInterfaceGraphique extends JFrame {
                             e1.printStackTrace();
                         }
                     }
-
-                    System.out.println(fc.getSelectedFile().getAbsolutePath());
-                    System.out.println(fc.getSelectedFile().getName());
-
+                    path = fc.getSelectedFile().getAbsolutePath();
                 }
             }
         };
@@ -126,9 +127,63 @@ public class MyInterfaceGraphique extends JFrame {
         mFile.add(miOpen);
 
         miSave = new MenuItem("Save");
+        ActionListener alSave = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (pgm != null) {
+                    pgm.write(path);
+                    JOptionPane.showMessageDialog(null, "File saved", "Information", JOptionPane.INFORMATION_MESSAGE);
+                } else if (ppm != null) {
+                    ppm.write(path);
+                    JOptionPane.showMessageDialog(null, "File saved", "Information", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        };
+        miSave.addActionListener(alSave);
         mFile.add(miSave);
 
         miSaveAs = new MenuItem("Save as");
+        ActionListener alSaveAs = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (pgm != null) {
+                    JFileChooser fc = new JFileChooser();
+                    FileNameExtensionFilter filter = new FileNameExtensionFilter("PGM Images", "pgm");
+                    fc.setFileFilter(filter);
+                    fc.setDialogTitle("Save as");
+                    fc.setCurrentDirectory(new File("./"));
+                    fc.setDragEnabled(false);
+                    int returnval = fc.showDialog(getParent(), "Save");
+                    if (returnval == JFileChooser.APPROVE_OPTION) {
+                        if (fc.getSelectedFile().toString().endsWith(".pgm")) {
+                            pgm.write(fc.getSelectedFile().toString());
+                            JOptionPane.showMessageDialog(null, "File saved", "Information", JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                            pgm.write(fc.getSelectedFile().toString()+".pgm");
+                            JOptionPane.showMessageDialog(null, "File saved", "Information", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                    }
+                } else if (ppm != null) {
+                    JFileChooser fc = new JFileChooser();
+                    FileNameExtensionFilter filter = new FileNameExtensionFilter("PPM Images", "ppm");
+                    fc.setFileFilter(filter);
+                    fc.setDialogTitle("Save as");
+                    fc.setCurrentDirectory(new File("./"));
+                    fc.setDragEnabled(false);
+                    int returnval = fc.showDialog(getParent(), "Save");
+                    if (returnval == JFileChooser.APPROVE_OPTION) {
+                        if (fc.getSelectedFile().toString().endsWith(".ppm")) {
+                            ppm.write(fc.getSelectedFile().toString());
+                            JOptionPane.showMessageDialog(null, "File saved", "Information", JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                            ppm.write(fc.getSelectedFile().toString()+".ppm");
+                            JOptionPane.showMessageDialog(null, "File saved", "Information", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                    }
+                }
+            }
+        };
+        miSaveAs.addActionListener(alSaveAs);
         mFile.add(miSaveAs);
 
         miClose = new MenuItem("Close");
