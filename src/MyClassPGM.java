@@ -33,7 +33,7 @@ public class MyClassPGM {
         return hist;
     }
 
-    private static double[] getProbabilities(short[] histogram, int totalPixels) {
+    private static double[] getProbabilities(short[] histogram, int totalPixels) {//à priori le problème est ici, check later
 
         double[] probability = new double[histogram.length];
 
