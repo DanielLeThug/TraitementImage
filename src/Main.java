@@ -14,36 +14,21 @@ public class Main {
     
     public static void main(String[] args) {
         // test de lecture et d'écriture d'un fichier pgm
-        ShortPixmap p1, p2;
+        ShortPixmap sp1;
+        //ShortPixmap sp2;
         try {
-            p1 = new ShortPixmap("aerial1.pgm");
-            p2 = new ShortPixmap("cuadrado3.pgm");
+            sp1 = new ShortPixmap("aerial1.pgm");
+            //sp2 = new ShortPixmap("cuadrado3.pgm");
         } catch (IOException e) {
-            p1 = null;
-            p2 = null;
+            sp1 = null;
+            //sp2 = null
             System.exit(0);
         }
-        //p1.write("test.pgm");
-
-        // test de lecture et d'écriture d'un fichier ppm
-        /*
-        ByteRGBPixmap rgb1;
-        try {
-            rgb1 = new ByteRGBPixmap("Lena.512.ppm");
-        } catch (IOException e) {
-            rgb1 = null;
-            System.exit(0);
-        }
-        rgb1.write("test.ppm");
-
-        // test histogramme
-        Histogramme h1 = new Histogramme(p1);
-        h1.filtreMedian();
-        h1.write("resultatMedian.pgm");
-        */
-        //MyClassPGM.etirementHisto(p1,"resultatEtirement.pgm");
-        //MyClassPGM.egalisationHisto(p1,"resultatEgalisation.pgm");
-        //MyClassPGM.specificationHisto(p1, p2, "resultatSpecification.pgm");
-        new MyInterfaceGraphique();
+        //MyClassPGM.etirementHisto(sp1,"resultatEtirement.pgm");
+        //MyClassPGM.egalisationHisto(sp1,"resultatEgalisation.pgm");
+        //MyClassPGM.specificationHisto(sp1, sp2, "resultatSpecification.pgm");
+        double seuil = MyClassPGM.getOtsuThreshold(sp1);
+        System.out.println(seuil);
+        //MyInterfaceGraphique myInterfaceGraphique = new MyInterfaceGraphique();
     }
 }
