@@ -6,6 +6,18 @@ import java.util.Arrays;
  */
 public class MyClassPGM {
 
+    public static ShortPixmap binarisation(ShortPixmap sp) {
+        double t = getOtsuThreshold(sp);
+        for (int i = 0; i < sp.data.length; i++) {
+            if (sp.data[i] <= t) {
+                sp.data[i] = 0;
+            } else {
+                sp.data[i] = 255;
+            }
+        }
+        return sp;
+    }
+
     public static double getOtsuThreshold(ShortPixmap sp) {
 
         short[] n = getHistogramme(sp);
@@ -117,7 +129,7 @@ public class MyClassPGM {
     private static double[] getU1(double UT, double[] Ut, double[] Uo) {
 
         double[] U1 = new double[Ut.length];
-        
+
         for (int index = 0; index < U1.length; index++) {
             if (Uo[index] == 1.0) {
                 Uo[index] = 1.1;

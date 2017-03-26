@@ -27,8 +27,6 @@ public class Main {
         //MyClassPGM.etirementHisto(sp1,"resultatEtirement.pgm");
         //MyClassPGM.egalisationHisto(sp1,"resultatEgalisation.pgm");
         //MyClassPGM.specificationHisto(sp1, sp2, "resultatSpecification.pgm");
-        double seuil = MyClassPGM.getOtsuThreshold(sp1);
-        System.out.println(seuil);
-        //MyInterfaceGraphique myInterfaceGraphique = new MyInterfaceGraphique();
+        MyInterfaceGraphique myInterfaceGraphique = new MyInterfaceGraphique();
     }
 }

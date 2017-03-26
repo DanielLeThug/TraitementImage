@@ -1,3 +1,4 @@
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
@@ -10,31 +11,30 @@ import java.io.IOException;
 /**
  * Created by Simon on 21/03/2017.
  */
-
 public class MyInterfaceGraphique extends JFrame {
-
+    
     private ShortPixmap pgm = null;
     private ByteRGBPixmap ppm = null;
     private String path = null;
-
+    
     private BufferedImage bufferImagePGM(ShortPixmap pgm) {
-        BufferedImage img = new BufferedImage(pgm.width, pgm.height,BufferedImage.TYPE_INT_RGB);
-        for(int i = 0 ; i < pgm.width ; i++) {
-            for(int j = 0 ; j < pgm.height ; j++) {
+        BufferedImage img = new BufferedImage(pgm.width, pgm.height, BufferedImage.TYPE_INT_RGB);
+        for (int i = 0; i < pgm.width; i++) {
+            for (int j = 0; j < pgm.height; j++) {
                 short pix = pgm.data[j * pgm.width + i];
-                img.setRGB(i, j, new Color(pix,pix,pix).getRGB());
+                img.setRGB(i, j, new Color(pix, pix, pix).getRGB());
             }
         }
         return img;
     }
-
+    
     private BufferedImage bufferImagePPM(ByteRGBPixmap ppm) {
-        BufferedImage img = new BufferedImage(ppm.width, ppm.height,BufferedImage.TYPE_INT_RGB);
+        BufferedImage img = new BufferedImage(ppm.width, ppm.height, BufferedImage.TYPE_INT_RGB);
         short[] red = ppm.r.getShorts();
         short[] green = ppm.g.getShorts();
         short[] blue = ppm.b.getShorts();
-        for(int i = 0 ; i < ppm.width ; i++) {
-            for(int j = 0 ; j < ppm.height ; j++) {
+        for (int i = 0; i < ppm.width; i++) {
+            for (int j = 0; j < ppm.height; j++) {
                 short redpix = red[j * ppm.width + i];
                 short greenpix = green[j * ppm.width + i];
                 short bluepix = blue[j * ppm.width + i];
@@ -43,16 +43,15 @@ public class MyInterfaceGraphique extends JFrame {
         }
         return img;
     }
-
-
+    
     private JMenuBar mb;
-
+    
     private JMenu mFile;
     private JMenuItem miOpen;
     private JMenuItem miSave;
     private JMenuItem miSaveAs;
     private JMenuItem miClose;
-
+    
     private JMenu mEdit;
     private JMenu mHisto;
     private JMenu mFiltre;
@@ -63,20 +62,18 @@ public class MyInterfaceGraphique extends JFrame {
     private JMenuItem miNagao;
     private JMenuItem miMedian;
     private JMenuItem miOtsu;
-
-
+    
     private JLabel label;
-
-
+    
     public MyInterfaceGraphique() {
         super("Ida et Chackal");
-
+        
         label = new JLabel();
-
+        
         mb = new JMenuBar();
-
+        
         mFile = new JMenu("File");
-
+        
         miOpen = new JMenuItem("Open");
         //Add actions ?
         ActionListener alOpen = new ActionListener() {
@@ -84,7 +81,7 @@ public class MyInterfaceGraphique extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 //Open file ppm or pgm
                 JFileChooser fc = new JFileChooser();
-                FileNameExtensionFilter filter = new FileNameExtensionFilter("PPM & PGM Images","ppm","pgm");
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("PPM & PGM Images", "ppm", "pgm");
                 fc.setFileFilter(filter);
                 fc.setDialogTitle("Open");
                 fc.setCurrentDirectory(new File("./"));
@@ -97,10 +94,10 @@ public class MyInterfaceGraphique extends JFrame {
                             ppm = null;
                             pgm = new ShortPixmap(fc.getSelectedFile().getAbsolutePath());
                             label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
-
-                            setPreferredSize(new Dimension(pgm.width+50, pgm.height+80));
+                            
+                            setPreferredSize(new Dimension(pgm.width + 50, pgm.height + 80));
                             pack();
-
+                            
                             mEdit.setEnabled(true);
                             miSave.setEnabled(true);
                             miSaveAs.setEnabled(true);
@@ -108,16 +105,16 @@ public class MyInterfaceGraphique extends JFrame {
                             e1.printStackTrace();
                         }
                     }
-
+                    
                     if (fc.getSelectedFile().toString().endsWith(".ppm")) {
                         try {
                             pgm = null;
                             ppm = new ByteRGBPixmap(fc.getSelectedFile().getAbsolutePath());
                             label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
-
-                            setPreferredSize(new Dimension(ppm.width+50, ppm.height+80));
+                            
+                            setPreferredSize(new Dimension(ppm.width + 50, ppm.height + 80));
                             pack();
-
+                            
                             mEdit.setEnabled(true);
                             miSave.setEnabled(true);
                             miSaveAs.setEnabled(true);
@@ -131,7 +128,7 @@ public class MyInterfaceGraphique extends JFrame {
         };
         miOpen.addActionListener(alOpen);
         mFile.add(miOpen);
-
+        
         miSave = new JMenuItem("Save");
         ActionListener alSave = new ActionListener() {
             @Override
@@ -147,7 +144,7 @@ public class MyInterfaceGraphique extends JFrame {
         };
         miSave.addActionListener(alSave);
         mFile.add(miSave);
-
+        
         miSaveAs = new JMenuItem("Save as");
         ActionListener alSaveAs = new ActionListener() {
             @Override
@@ -165,7 +162,7 @@ public class MyInterfaceGraphique extends JFrame {
                             pgm.write(fc.getSelectedFile().toString());
                             JOptionPane.showMessageDialog(null, "File saved", "Information", JOptionPane.INFORMATION_MESSAGE);
                         } else {
-                            pgm.write(fc.getSelectedFile().toString()+".pgm");
+                            pgm.write(fc.getSelectedFile().toString() + ".pgm");
                             JOptionPane.showMessageDialog(null, "File saved", "Information", JOptionPane.INFORMATION_MESSAGE);
                         }
                     }
@@ -182,7 +179,7 @@ public class MyInterfaceGraphique extends JFrame {
                             ppm.write(fc.getSelectedFile().toString());
                             JOptionPane.showMessageDialog(null, "File saved", "Information", JOptionPane.INFORMATION_MESSAGE);
                         } else {
-                            ppm.write(fc.getSelectedFile().toString()+".ppm");
+                            ppm.write(fc.getSelectedFile().toString() + ".ppm");
                             JOptionPane.showMessageDialog(null, "File saved", "Information", JOptionPane.INFORMATION_MESSAGE);
                         }
                     }
@@ -191,7 +188,7 @@ public class MyInterfaceGraphique extends JFrame {
         };
         miSaveAs.addActionListener(alSaveAs);
         mFile.add(miSaveAs);
-
+        
         miClose = new JMenuItem("Close");
         //Add Actions ?
         ActionListener alClose = new ActionListener() {
@@ -205,10 +202,9 @@ public class MyInterfaceGraphique extends JFrame {
         };
         miClose.addActionListener(alClose);
         mFile.add(miClose);
-
-
+        
         mEdit = new JMenu("Edit");
-
+        
         mHisto = new JMenu("Histo"); // A MODIFIER
         miHisto = new JMenuItem("Histogramme");
         miEtirement = new JMenuItem("Étirement");
@@ -216,7 +212,6 @@ public class MyInterfaceGraphique extends JFrame {
         miSpecification = new JMenuItem("Spécification");
 
         // ACTIONLISTENER TO DO
-
         ActionListener alHisto = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -230,7 +225,7 @@ public class MyInterfaceGraphique extends JFrame {
             }
         };
         miHisto.addActionListener(alHisto);
-
+        
         ActionListener alEtirement = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -244,7 +239,7 @@ public class MyInterfaceGraphique extends JFrame {
             }
         };
         miEtirement.addActionListener(alEtirement);
-
+        
         ActionListener alEgalisation = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -258,14 +253,14 @@ public class MyInterfaceGraphique extends JFrame {
             }
         };
         miEgalisation.addActionListener(alEgalisation);
-
+        
         ActionListener alSpecification = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (pgm != null) {
                     ShortPixmap tmp = null;
                     JFileChooser fc = new JFileChooser();
-                    FileNameExtensionFilter filter = new FileNameExtensionFilter("PGM Images","pgm");
+                    FileNameExtensionFilter filter = new FileNameExtensionFilter("PGM Images", "pgm");
                     fc.setFileFilter(filter);
                     fc.setDialogTitle("Open");
                     fc.setCurrentDirectory(new File("./"));
@@ -293,14 +288,12 @@ public class MyInterfaceGraphique extends JFrame {
             }
         };
         miSpecification.addActionListener(alSpecification);
-
-
+        
         mFiltre = new JMenu("Filtres");
         miMedian = new JMenuItem("Médian");
         miNagao = new JMenuItem("Nagao");
 
         // ACTIONLISTENER TO DO
-
         ActionListener alMedian = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -314,40 +307,49 @@ public class MyInterfaceGraphique extends JFrame {
             }
         };
         miMedian.addActionListener(alMedian);
-
+        
         miOtsu = new JMenuItem("Otsu");
+        ActionListener alOtsu = (ActionEvent ae) -> {
+            if (pgm != null) {
+                pgm = MyClassPGM.binarisation(pgm);
+                label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
+            } else if (ppm != null) {
+                //ppm = MyClassPPM.binarisation(ppm);
+                //label.setIcon(new ImageIcon(bufferImagePGM(ppm)));
+            }            
+        };
+        miOtsu.addActionListener(alOtsu);
 
         // ACTIONLISTENER TO DO
-
         mHisto.add(miHisto);
         mHisto.add(miEtirement);
         mHisto.add(miEgalisation);
         mHisto.add(miSpecification);
-
+        
         mFiltre.add(miMedian);
         mFiltre.add(miNagao);
-
+        
         mEdit.add(mHisto);
         mEdit.add(mFiltre);
         mEdit.add(miOtsu);
-
+        
         mb.add(mFile);
         mb.add(mEdit);
         setJMenuBar(mb);
-
+        
         label.setHorizontalAlignment(JLabel.CENTER);
         add(label);
 
         // Seulement quand aucun fichier est ouvert
         mEdit.setEnabled(false);
-
+        
         miSave.setEnabled(false);
         miSaveAs.setEnabled(false);
-
-        setPreferredSize(new Dimension(300,150));
+        
+        setPreferredSize(new Dimension(300, 150));
         pack();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setVisible(true);
     }
-
+    
 }
