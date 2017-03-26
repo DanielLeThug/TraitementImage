@@ -33,7 +33,7 @@ public class MyClassPGM {
         return hist;
     }
 
-    private static double[] getProbabilities(short[] histogram, int totalPixels) {//à priori le problème est ici, check later
+    private static double[] getProbabilities(short[] histogram, int totalPixels) {
 
         double[] probability = new double[histogram.length];
 
@@ -52,7 +52,6 @@ public class MyClassPGM {
         for (int index = 1; index < Wo.length; index++) {
             Wo[index] = Wo[index - 1] + probability[index];
         }
-
         return Wo;
     }
 
@@ -63,7 +62,6 @@ public class MyClassPGM {
         for (int index = 0; index < probability.length; index++) {
             W += probability[index];
         }
-
         return W;
     }
 
@@ -85,7 +83,6 @@ public class MyClassPGM {
         for (int index = 0; index < probability.length; index++) {
             UT += (((double) index) * probability[index]);
         }
-
         return UT;
 
     }
@@ -120,9 +117,13 @@ public class MyClassPGM {
     private static double[] getU1(double UT, double[] Ut, double[] Uo) {
 
         double[] U1 = new double[Ut.length];
-
+        
         for (int index = 0; index < U1.length; index++) {
-            U1[index] = (UT - Ut[index]) / (1 - Uo[index]);
+            if (Uo[index] == 1.0) {
+                Uo[index] = 1.1;
+            } else {
+                U1[index] = (UT - Ut[index]) / (1 - Uo[index]);
+            }
         }
 
         return U1;
@@ -136,7 +137,6 @@ public class MyClassPGM {
         for (int index = 0; index < probability.length; index++) {
             sigmaSqrT += (Math.pow((index - UT), 2) * probability[index]);
         }
-
         return sigmaSqrT;
 
     }
