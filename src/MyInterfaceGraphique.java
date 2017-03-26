@@ -76,112 +76,102 @@ public class MyInterfaceGraphique extends JFrame {
         
         miOpen = new JMenuItem("Open");
         //Add actions ?
-        ActionListener alOpen = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //Open file ppm or pgm
-                JFileChooser fc = new JFileChooser();
-                FileNameExtensionFilter filter = new FileNameExtensionFilter("PPM & PGM Images", "ppm", "pgm");
-                fc.setFileFilter(filter);
-                fc.setDialogTitle("Open");
-                fc.setCurrentDirectory(new File("./"));
-                fc.setApproveButtonText("Open");
-                fc.setDragEnabled(false);
-                int returnval = fc.showOpenDialog(getParent());
-                if (returnval == JFileChooser.APPROVE_OPTION) {
-                    if (fc.getSelectedFile().toString().endsWith(".pgm")) {
-                        try {
-                            ppm = null;
-                            pgm = new ShortPixmap(fc.getSelectedFile().getAbsolutePath());
-                            label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
-                            
-                            setPreferredSize(new Dimension(pgm.width + 50, pgm.height + 80));
-                            pack();
-                            
-                            mEdit.setEnabled(true);
-                            miSave.setEnabled(true);
-                            miSaveAs.setEnabled(true);
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
-                        }
+        ActionListener alOpen = e -> {
+            //Open file ppm or pgm
+            JFileChooser fc = new JFileChooser();
+            fc.addChoosableFileFilter(new FileNameExtensionFilter("PGM Images", "pgm"));
+            fc.addChoosableFileFilter(new FileNameExtensionFilter("PPM Images", "ppm"));
+            fc.setFileFilter(new FileNameExtensionFilter("PPM & PGM Images", "ppm", "pgm"));
+            fc.setDialogTitle("Open");
+            fc.setCurrentDirectory(new File("./"));
+            fc.setApproveButtonText("Open");
+            fc.setDragEnabled(false);
+            int returnval = fc.showOpenDialog(getParent());
+            if (returnval == JFileChooser.APPROVE_OPTION) {
+                if (fc.getSelectedFile().toString().endsWith(".pgm")) {
+                    try {
+                        ppm = null;
+                        pgm = new ShortPixmap(fc.getSelectedFile().getAbsolutePath());
+                        label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
+
+                        setPreferredSize(new Dimension(pgm.width + 50, pgm.height + 80));
+                        pack();
+
+                        mEdit.setEnabled(true);
+                        miSave.setEnabled(true);
+                        miSaveAs.setEnabled(true);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
                     }
-                    
-                    if (fc.getSelectedFile().toString().endsWith(".ppm")) {
-                        try {
-                            pgm = null;
-                            ppm = new ByteRGBPixmap(fc.getSelectedFile().getAbsolutePath());
-                            label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
-                            
-                            setPreferredSize(new Dimension(ppm.width + 50, ppm.height + 80));
-                            pack();
-                            
-                            mEdit.setEnabled(true);
-                            miSave.setEnabled(true);
-                            miSaveAs.setEnabled(true);
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
-                        }
-                    }
-                    path = fc.getSelectedFile().getAbsolutePath();
                 }
+
+                if (fc.getSelectedFile().toString().endsWith(".ppm")) {
+                    try {
+                        pgm = null;
+                        ppm = new ByteRGBPixmap(fc.getSelectedFile().getAbsolutePath());
+                        label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
+
+                        setPreferredSize(new Dimension(ppm.width + 50, ppm.height + 80));
+                        pack();
+
+                        mEdit.setEnabled(true);
+                        miSave.setEnabled(true);
+                        miSaveAs.setEnabled(true);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+                path = fc.getSelectedFile().getAbsolutePath();
             }
         };
         miOpen.addActionListener(alOpen);
         mFile.add(miOpen);
         
         miSave = new JMenuItem("Save");
-        ActionListener alSave = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (pgm != null) {
-                    pgm.write(path);
-                    JOptionPane.showMessageDialog(null, "File saved", "Information", JOptionPane.INFORMATION_MESSAGE);
-                } else if (ppm != null) {
-                    ppm.write(path);
-                    JOptionPane.showMessageDialog(null, "File saved", "Information", JOptionPane.INFORMATION_MESSAGE);
-                }
+        ActionListener alSave = e -> {
+            if (pgm != null) {
+                pgm.write(path);
+                JOptionPane.showMessageDialog(null, "File saved", "Information", JOptionPane.INFORMATION_MESSAGE);
+            } else if (ppm != null) {
+                ppm.write(path);
+                JOptionPane.showMessageDialog(null, "File saved", "Information", JOptionPane.INFORMATION_MESSAGE);
             }
         };
         miSave.addActionListener(alSave);
         mFile.add(miSave);
         
         miSaveAs = new JMenuItem("Save as");
-        ActionListener alSaveAs = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (pgm != null) {
-                    JFileChooser fc = new JFileChooser();
-                    FileNameExtensionFilter filter = new FileNameExtensionFilter("PGM Images", "pgm");
-                    fc.setFileFilter(filter);
-                    fc.setDialogTitle("Save as");
-                    fc.setCurrentDirectory(new File("./"));
-                    fc.setDragEnabled(false);
-                    int returnval = fc.showDialog(getParent(), "Save");
-                    if (returnval == JFileChooser.APPROVE_OPTION) {
-                        if (fc.getSelectedFile().toString().endsWith(".pgm")) {
-                            pgm.write(fc.getSelectedFile().toString());
-                            JOptionPane.showMessageDialog(null, "File saved", "Information", JOptionPane.INFORMATION_MESSAGE);
-                        } else {
-                            pgm.write(fc.getSelectedFile().toString() + ".pgm");
-                            JOptionPane.showMessageDialog(null, "File saved", "Information", JOptionPane.INFORMATION_MESSAGE);
-                        }
+        ActionListener alSaveAs = e -> {
+            if (pgm != null) {
+                JFileChooser fc = new JFileChooser();
+                fc.setFileFilter(new FileNameExtensionFilter("PGM Images", "pgm"));
+                fc.setDialogTitle("Save as");
+                fc.setCurrentDirectory(new File("./"));
+                fc.setDragEnabled(false);
+                int returnval = fc.showDialog(getParent(), "Save");
+                if (returnval == JFileChooser.APPROVE_OPTION) {
+                    if (fc.getSelectedFile().toString().endsWith(".pgm")) {
+                        pgm.write(fc.getSelectedFile().toString());
+                        JOptionPane.showMessageDialog(null, "File saved", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        pgm.write(fc.getSelectedFile().toString() + ".pgm");
+                        JOptionPane.showMessageDialog(null, "File saved", "Information", JOptionPane.INFORMATION_MESSAGE);
                     }
-                } else if (ppm != null) {
-                    JFileChooser fc = new JFileChooser();
-                    FileNameExtensionFilter filter = new FileNameExtensionFilter("PPM Images", "ppm");
-                    fc.setFileFilter(filter);
-                    fc.setDialogTitle("Save as");
-                    fc.setCurrentDirectory(new File("./"));
-                    fc.setDragEnabled(false);
-                    int returnval = fc.showDialog(getParent(), "Save");
-                    if (returnval == JFileChooser.APPROVE_OPTION) {
-                        if (fc.getSelectedFile().toString().endsWith(".ppm")) {
-                            ppm.write(fc.getSelectedFile().toString());
-                            JOptionPane.showMessageDialog(null, "File saved", "Information", JOptionPane.INFORMATION_MESSAGE);
-                        } else {
-                            ppm.write(fc.getSelectedFile().toString() + ".ppm");
-                            JOptionPane.showMessageDialog(null, "File saved", "Information", JOptionPane.INFORMATION_MESSAGE);
-                        }
+                }
+            } else if (ppm != null) {
+                JFileChooser fc = new JFileChooser();
+                fc.setFileFilter(new FileNameExtensionFilter("PPM Images", "ppm"));
+                fc.setDialogTitle("Save as");
+                fc.setCurrentDirectory(new File("./"));
+                fc.setDragEnabled(false);
+                int returnval = fc.showDialog(getParent(), "Save");
+                if (returnval == JFileChooser.APPROVE_OPTION) {
+                    if (fc.getSelectedFile().toString().endsWith(".ppm")) {
+                        ppm.write(fc.getSelectedFile().toString());
+                        JOptionPane.showMessageDialog(null, "File saved", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        ppm.write(fc.getSelectedFile().toString() + ".ppm");
+                        JOptionPane.showMessageDialog(null, "File saved", "Information", JOptionPane.INFORMATION_MESSAGE);
                     }
                 }
             }
@@ -191,13 +181,10 @@ public class MyInterfaceGraphique extends JFrame {
         
         miClose = new JMenuItem("Close");
         //Add Actions ?
-        ActionListener alClose = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (isDisplayable()) {
-                    // Other stuff if needed like do you wanna save ? etc
-                    dispose();
-                }
+        ActionListener alClose = e -> {
+            if (isDisplayable()) {
+                // Other stuff if needed like do you wanna save ? etc
+                dispose();
             }
         };
         miClose.addActionListener(alClose);
@@ -212,79 +199,68 @@ public class MyInterfaceGraphique extends JFrame {
         miSpecification = new JMenuItem("Spécification");
 
         // ACTIONLISTENER TO DO
-        ActionListener alHisto = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (pgm != null) {
-                    //pgm = MyClassPGM.histogramme();
-                    //label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
-                } else if (ppm != null) {
-                    //ppm = MyClassPPM.histogramme();
-                    //label.setIcon(new ImageIcon(bufferImagePGM(ppm)));
-                }
+        ActionListener alHisto = e -> {
+            if (pgm != null) {
+                MyClassPGM.getHistogramme(pgm);
+                //pgm = MyClassPGM.histogramme();
+                //label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
+            } else if (ppm != null) {
+                //ppm = MyClassPPM.histogramme();
+                //label.setIcon(new ImageIcon(bufferImagePGM(ppm)));
             }
         };
         miHisto.addActionListener(alHisto);
         
-        ActionListener alEtirement = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (pgm != null) {
-                    pgm = MyClassPGM.etirementHisto(pgm);
-                    label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
-                } else if (ppm != null) {
-                    //ppm = MyClassPPM.etirementHisto(ppm);
-                    //label.setIcon(new ImageIcon(bufferImagePGM(ppm)));
-                }
+        ActionListener alEtirement = e -> {
+            if (pgm != null) {
+                pgm = MyClassPGM.etirementHisto(pgm);
+                label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
+            } else if (ppm != null) {
+                //ppm = MyClassPPM.etirementHisto(ppm);
+                //label.setIcon(new ImageIcon(bufferImagePGM(ppm)));
             }
         };
         miEtirement.addActionListener(alEtirement);
         
-        ActionListener alEgalisation = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (pgm != null) {
-                    pgm = MyClassPGM.egalisationHisto(pgm);
-                    label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
-                } else if (ppm != null) {
-                    //ppm = MyClassPPM.egalisationHisto(ppm);
-                    //label.setIcon(new ImageIcon(bufferImagePGM(ppm)));
-                }
+        ActionListener alEgalisation = e -> {
+            if (pgm != null) {
+                pgm = MyClassPGM.egalisationHisto(pgm);
+                label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
+            } else if (ppm != null) {
+                //ppm = MyClassPPM.egalisationHisto(ppm);
+                //label.setIcon(new ImageIcon(bufferImagePGM(ppm)));
             }
         };
         miEgalisation.addActionListener(alEgalisation);
         
-        ActionListener alSpecification = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (pgm != null) {
-                    ShortPixmap tmp = null;
-                    JFileChooser fc = new JFileChooser();
-                    FileNameExtensionFilter filter = new FileNameExtensionFilter("PGM Images", "pgm");
-                    fc.setFileFilter(filter);
-                    fc.setDialogTitle("Open");
-                    fc.setCurrentDirectory(new File("./"));
-                    fc.setApproveButtonText("Open");
-                    fc.setDragEnabled(false);
-                    int returnval = fc.showOpenDialog(getParent());
-                    if (returnval == JFileChooser.APPROVE_OPTION) {
-                        if (fc.getSelectedFile().toString().endsWith(".pgm")) {
-                            try {
-                                tmp = new ShortPixmap(fc.getSelectedFile().getAbsolutePath());
-                            } catch (IOException e1) {
-                                e1.printStackTrace();
-                            }
-                            pgm = MyClassPGM.specificationHisto(pgm, tmp);
-                            label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Mauvais format de fichier", "Warning", JOptionPane.WARNING_MESSAGE);
+        ActionListener alSpecification = e -> {
+            if (pgm != null) {
+                ShortPixmap tmp = null;
+                JFileChooser fc = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("PGM Images", "pgm");
+                fc.setFileFilter(filter);
+                fc.setDialogTitle("Open");
+                fc.setCurrentDirectory(new File("./"));
+                fc.setApproveButtonText("Open");
+                fc.setDragEnabled(false);
+                int returnval = fc.showOpenDialog(getParent());
+                if (returnval == JFileChooser.APPROVE_OPTION) {
+                    if (fc.getSelectedFile().toString().endsWith(".pgm")) {
+                        try {
+                            tmp = new ShortPixmap(fc.getSelectedFile().getAbsolutePath());
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
                         }
+                        pgm = MyClassPGM.specificationHisto(pgm, tmp);
+                        label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Mauvais format de fichier", "Warning", JOptionPane.WARNING_MESSAGE);
                     }
-                } else if (ppm != null) {
-                    //ByteRGBPixmap tmp;
-                    //ppm = MyClassPPM.specificationHisto(ppm, tmp);
-                    //label.setIcon(new ImageIcon(bufferImagePGM(ppm)));
                 }
+            } else if (ppm != null) {
+                //ByteRGBPixmap tmp;
+                //ppm = MyClassPPM.specificationHisto(ppm, tmp);
+                //label.setIcon(new ImageIcon(bufferImagePGM(ppm)));
             }
         };
         miSpecification.addActionListener(alSpecification);
@@ -294,16 +270,13 @@ public class MyInterfaceGraphique extends JFrame {
         miNagao = new JMenuItem("Nagao");
 
         // ACTIONLISTENER TO DO
-        ActionListener alMedian = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (pgm != null) {
-                    pgm = MyClassPGM.filtreMedian(pgm);
-                    label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
-                } else if (ppm != null) {
-                    //ppm = MyClassPPM.filtreMedian(ppm);
-                    //label.setIcon(new ImageIcon(bufferImagePGM(ppm)));
-                }
+        ActionListener alMedian = e -> {
+            if (pgm != null) {
+                pgm = MyClassPGM.filtreMedian(pgm);
+                label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
+            } else if (ppm != null) {
+                //ppm = MyClassPPM.filtreMedian(ppm);
+                //label.setIcon(new ImageIcon(bufferImagePGM(ppm)));
             }
         };
         miMedian.addActionListener(alMedian);

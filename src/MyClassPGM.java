@@ -42,6 +42,10 @@ public class MyClassPGM {
         for (int i = 0; i < sp.data.length; i++) {
             hist[sp.data[i]]++;
         }
+        for(int i = 0 ; i < 256 ; i++) {
+            if(hist[i] != 0)
+            System.out.println(i+" : "+hist[i]);
+        }
         return hist;
     }
 
