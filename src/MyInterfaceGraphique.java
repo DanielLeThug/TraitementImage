@@ -267,9 +267,6 @@ public class MyInterfaceGraphique extends JFrame {
         
         mFiltre = new JMenu("Filtres");
         miMedian = new JMenuItem("Médian");
-        miNagao = new JMenuItem("Nagao");
-
-        // ACTIONLISTENER TO DO
         ActionListener alMedian = e -> {
             if (pgm != null) {
                 pgm = MyClassPGM.filtreMedian(pgm);
@@ -280,7 +277,19 @@ public class MyInterfaceGraphique extends JFrame {
             }
         };
         miMedian.addActionListener(alMedian);
-        
+
+        miNagao = new JMenuItem("Nagao");
+        ActionListener alNagao = (ActionEvent ae) -> {
+            if (pgm != null) {
+                pgm = MyClassPGM.filtreNagao(pgm);
+                label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
+            } else if (ppm != null) {
+                //ppm = MyClassPPM.binarisation(ppm);
+                //label.setIcon(new ImageIcon(bufferImagePGM(ppm)));
+            }
+        };
+        miNagao.addActionListener(alNagao);
+
         miOtsu = new JMenuItem("Otsu");
         ActionListener alOtsu = (ActionEvent ae) -> {
             if (pgm != null) {

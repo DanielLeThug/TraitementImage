@@ -62,7 +62,7 @@ public class Histogramme extends ShortPixmap {
                         v[pos++] = data[l * width + k];
                     }
                 }
-                
+
                 // tableaux contenant les moyennes et variances de chaque fenêtre
                 double[] moyennes = new double[9];
                 double[] variances = new double[9];
@@ -85,7 +85,7 @@ public class Histogramme extends ShortPixmap {
                 moyennes[7] = getMean(f1); variances[7] = getVariance(f1);
                 short[] f9 = {v[12], v[13], v[17], v[18], v[19], v[23], v[24]};
                 moyennes[8] = getMean(f1); variances[8] = getVariance(f1);
-                
+
                 // on récupère l'indice de la plus petite variance
                 int indice = 0;
                 for (int m = 1; m < 9; ++m) {
@@ -93,7 +93,7 @@ public class Histogramme extends ShortPixmap {
                         indice = m;
                 }
 
-                data[j * width + i] = moyennes[indice];
+                data[j * width + i] = (short) moyennes[indice];
             }
         }
     }
