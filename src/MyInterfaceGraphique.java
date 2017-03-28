@@ -299,11 +299,11 @@ public class MyInterfaceGraphique extends JFrame {
         miNagao = new JMenuItem("Nagao");
         ActionListener alNagao = (ActionEvent ae) -> {
             if (pgm != null) {
-                pgm = MyClassPGM.filtreNagao(pgm);
+                pgm =  new ShortPixmap(pgm.width, pgm.height, MyClassPGM.filtreNagao(pgm.width, pgm.height, pgm.data));
                 label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
             } else if (ppm != null) {
-                //ppm = MyClassPPM.binarisation(ppm);
-                //label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
+                ppm = MyClassPPM.filtreNagao(ppm);
+                label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
             }
         };
         miNagao.addActionListener(alNagao);

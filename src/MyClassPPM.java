@@ -23,5 +23,7 @@ public class MyClassPPM {
         return new ByteRGBPixmap(bp.width, bp.height, Pixmap.getBytes(MyClassPGM.filtreMedian(bp.width, bp.height, bp.r.getShorts())), Pixmap.getBytes(MyClassPGM.filtreMedian(bp.width, bp.height, bp.g.getShorts())), Pixmap.getBytes(MyClassPGM.filtreMedian(bp.width, bp.height, bp.b.getShorts())));
     }
 
-
+    public static ByteRGBPixmap filtreNagao(ByteRGBPixmap bp) {
+        return new ByteRGBPixmap(bp.width, bp.height, Pixmap.getBytes(MyClassPGM.filtreNagao(bp.width, bp.height, bp.r.getShorts())), Pixmap.getBytes(MyClassPGM.filtreNagao(bp.width, bp.height, bp.g.getShorts())), Pixmap.getBytes(MyClassPGM.filtreNagao(bp.width, bp.height, bp.b.getShorts())));
+    }
 }

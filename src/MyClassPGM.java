@@ -283,18 +283,18 @@ public class MyClassPGM {
          toujours 9 valeurs */
     }
 
-    public static ShortPixmap filtreNagao(ShortPixmap sp) {
-        ShortPixmap ret = new ShortPixmap(sp);
+    public static short[] filtreNagao(int width, int height, short[] data) {
+        short[] ret = data;
         int pos;
-        for (int i = 2; i < sp.width - 2; i++) {
-            for (int j = 2; j < sp.height - 2; j++) {
+        for (int i = 2; i < width - 2; i++) {
+            for (int j = 2; j < height - 2; j++) {
                 // utiliser les 3 petits points de java
                 pos = 0;
                 // on stocke les 25 pixels concernés
                 short[] v = new short[25];
                 for (int k = i - 2; k < i + 3; ++k) {
                     for (int l = j - 2; l < j + 3; ++l) {
-                        v[pos++] = sp.data[l * sp.width + k];
+                        v[pos++] = data[l * width + k];
                     }
                 }
 
@@ -328,7 +328,7 @@ public class MyClassPGM {
                         indice = m;
                 }
 
-                ret.data[j * sp.width + i] = (short) moyennes[indice];
+                ret[j * width + i] = (short) moyennes[indice];
             }
         }
         return ret;
