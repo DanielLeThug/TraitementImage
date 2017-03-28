@@ -6,22 +6,22 @@ import java.util.Arrays;
  */
 public class MyClassPGM {
 
-    public static ShortPixmap binarisation(ShortPixmap sp) {
-        double t = getOtsuThreshold(sp);
-        for (int i = 0; i < sp.data.length; i++) {
-            if (sp.data[i] <= t) {
-                sp.data[i] = 0;
+    public static short[] binarisation(short[] data) {
+        double t = getOtsuThreshold(data);
+        for (int i = 0; i < data.length; i++) {
+            if (data[i] <= t) {
+                data[i] = 0;
             } else {
-                sp.data[i] = 255;
+                data[i] = 255;
             }
         }
-        return sp;
+        return data;
     }
 
-    public static double getOtsuThreshold(ShortPixmap sp) {
+    public static double getOtsuThreshold(short[] data) {
 
-        long[] n = getHistogramme(sp);
-        double[] p = getProbabilities(n, sp.data.length);
+        long[] n = getHistogramme(data);
+        double[] p = getProbabilities(n, data.length);
         double[] Wo = getWo(p);
         double W = getW(p);
         double[] W1 = getW1(Wo, W);
@@ -36,16 +36,13 @@ public class MyClassPGM {
 
     }
 
-    public static long[] getHistogramme(ShortPixmap sp) {
+    public static long[] getHistogramme(short[] data) {
         long[] hist = new long[256];
 
-        for (int i = 0; i < sp.data.length; i++) {
-            hist[sp.data[i]]++;
+        for (int i = 0; i < data.length; i++) {
+            hist[data[i]]++;
         }
-        for(int i = 0 ; i < 256 ; i++) {
-            if(hist[i] != 0)
-            System.out.println(i+" : "+hist[i]);
-        }
+
         return hist;
     }
 
@@ -188,7 +185,7 @@ public class MyClassPGM {
     }
 
     public static ShortPixmap etirementHisto(ShortPixmap sp) {
-        long[] hist = getHistogramme(sp);
+        long[] hist = getHistogramme(sp.data);
         double max, min;
 
         short i = 0;
@@ -208,7 +205,7 @@ public class MyClassPGM {
     }
 
     public static ShortPixmap egalisationHisto(ShortPixmap sp) {
-        long[] hist = getHistogramme(sp);
+        long[] hist = getHistogramme(sp.data);
         double[] hist2 = new double[256];
         double tmp = 0;
         for (int i = 0; i < 256; i++) {
@@ -222,8 +219,8 @@ public class MyClassPGM {
     }
 
     public static ShortPixmap specificationHisto(ShortPixmap spToModif, ShortPixmap sp) {
-        long[] hist1 = getHistogramme(spToModif);
-        long[] hist2 = getHistogramme(sp);
+        long[] hist1 = getHistogramme(spToModif.data);
+        long[] hist2 = getHistogramme(sp.data);
         double[] hist3 = new double[256];
         double[] hist4 = new double[256];
         double tmp1 = 0.0, tmp2 = 0.0;

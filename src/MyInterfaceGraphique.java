@@ -201,7 +201,6 @@ public class MyInterfaceGraphique extends JFrame {
         // ACTIONLISTENER TO DO
         ActionListener alHisto = e -> {
             if (pgm != null) {
-                MyClassPGM.getHistogramme(pgm);
                 //pgm = MyClassPGM.histogramme();
                 //label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
             } else if (ppm != null) {
@@ -293,11 +292,11 @@ public class MyInterfaceGraphique extends JFrame {
         miOtsu = new JMenuItem("Otsu");
         ActionListener alOtsu = (ActionEvent ae) -> {
             if (pgm != null) {
-                pgm = MyClassPGM.binarisation(pgm);
+                pgm = new ShortPixmap(pgm.width, pgm.height, MyClassPGM.binarisation(pgm.data));
                 label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
             } else if (ppm != null) {
-                //ppm = MyClassPPM.binarisation(ppm);
-                //label.setIcon(new ImageIcon(bufferImagePGM(ppm)));
+                ppm = MyClassPPM.binarisation(ppm);
+                label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
             }            
         };
         miOtsu.addActionListener(alOtsu);
