@@ -287,11 +287,11 @@ public class MyInterfaceGraphique extends JFrame {
         miMedian = new JMenuItem("Médian");
         ActionListener alMedian = e -> {
             if (pgm != null) {
-                pgm = MyClassPGM.filtreMedian(pgm);
+                pgm = new ShortPixmap(pgm.width, pgm.height, MyClassPGM.filtreMedian(pgm.width, pgm.height, pgm.data));
                 label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
             } else if (ppm != null) {
-                //ppm = MyClassPPM.filtreMedian(ppm);
-                //label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
+                ppm = MyClassPPM.filtreMedian(ppm);
+                label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
             }
         };
         miMedian.addActionListener(alMedian);

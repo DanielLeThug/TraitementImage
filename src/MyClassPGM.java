@@ -258,19 +258,19 @@ public class MyClassPGM {
         return dataToModif;
     }
 
-    public static ShortPixmap filtreMedian(ShortPixmap sp) { // on peut mettre le nombre de cases en param (carré de 3pix par défaut mais pourrait être 5/7/etc
-        ShortPixmap newSP = new ShortPixmap(sp);
+    public static short[] filtreMedian(int width, int height, short[] data) { // on peut mettre le nombre de cases en param (carré de 3pix par défaut mais pourrait être 5/7/etc
+        short[] newSP = new short[data.length];
         short[] v = new short[9];
         short r = 0;
-        for (int i = 1; i < newSP.width - 1; i++) {
-            for (int j = 1; j < newSP.height - 1; j++) {
+        for (int i = 1; i < width - 1; i++) {
+            for (int j = 1; j < height - 1; j++) {
                 r = 0;
                 for (int k = i - 1; k < i + 2; k++) {
                     for (int l = j - 1; l < j + 2; l++) {
-                        v[r++] = sp.data[l * sp.width + k];
+                        v[r++] = data[l * width + k];
                     }
                 }
-                newSP.data[j * newSP.width + i] = valeurMediane(v);
+                newSP[j * width + i] = valeurMediane(v);
             }
         }
         return newSP;
