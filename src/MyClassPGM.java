@@ -184,8 +184,8 @@ public class MyClassPGM {
         return eta;
     }
 
-    public static ShortPixmap etirementHisto(ShortPixmap sp) {
-        long[] hist = getHistogramme(sp.data);
+    public static short[] etirementHisto(short[] data) {
+        long[] hist = getHistogramme(data);
         double max, min;
 
         short i = 0;
@@ -198,10 +198,10 @@ public class MyClassPGM {
             i--;
         }
         max = i;
-        for (int k = 0; k < sp.size; k++) {
-            sp.data[k] = (short) ((255 / (max - min)) * (sp.data[k] - min));
+        for (int k = 0; k < data.length; k++) {
+            data[k] = (short) ((255 / (max - min)) * (data[k] - min));
         }
-        return sp;
+        return data;
     }
 
     public static ShortPixmap egalisationHisto(ShortPixmap sp) {

@@ -212,11 +212,11 @@ public class MyInterfaceGraphique extends JFrame {
         
         ActionListener alEtirement = e -> {
             if (pgm != null) {
-                pgm = MyClassPGM.etirementHisto(pgm);
+                pgm = new ShortPixmap(pgm.width, pgm.height, MyClassPGM.etirementHisto(pgm.data));
                 label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
             } else if (ppm != null) {
-                //ppm = MyClassPPM.etirementHisto(ppm);
-                //label.setIcon(new ImageIcon(bufferImagePGM(ppm)));
+                ppm = MyClassPPM.etirementHisto(ppm);
+                label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
             }
         };
         miEtirement.addActionListener(alEtirement);
@@ -227,7 +227,7 @@ public class MyInterfaceGraphique extends JFrame {
                 label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
             } else if (ppm != null) {
                 //ppm = MyClassPPM.egalisationHisto(ppm);
-                //label.setIcon(new ImageIcon(bufferImagePGM(ppm)));
+                //label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
             }
         };
         miEgalisation.addActionListener(alEgalisation);
@@ -259,7 +259,7 @@ public class MyInterfaceGraphique extends JFrame {
             } else if (ppm != null) {
                 //ByteRGBPixmap tmp;
                 //ppm = MyClassPPM.specificationHisto(ppm, tmp);
-                //label.setIcon(new ImageIcon(bufferImagePGM(ppm)));
+                //label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
             }
         };
         miSpecification.addActionListener(alSpecification);
@@ -272,7 +272,7 @@ public class MyInterfaceGraphique extends JFrame {
                 label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
             } else if (ppm != null) {
                 //ppm = MyClassPPM.filtreMedian(ppm);
-                //label.setIcon(new ImageIcon(bufferImagePGM(ppm)));
+                //label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
             }
         };
         miMedian.addActionListener(alMedian);
@@ -284,7 +284,7 @@ public class MyInterfaceGraphique extends JFrame {
                 label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
             } else if (ppm != null) {
                 //ppm = MyClassPPM.binarisation(ppm);
-                //label.setIcon(new ImageIcon(bufferImagePGM(ppm)));
+                //label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
             }
         };
         miNagao.addActionListener(alNagao);
