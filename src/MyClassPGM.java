@@ -6,6 +6,27 @@ import java.util.Arrays;
  */
 public class MyClassPGM {
 
+    public static short[] histogramme(int width, short[] data) {
+        long[] h = getHistogramme(data);
+        int max = 0;
+        for (int i = 0; i < 256; i++) {
+            if (h[max] < h[i]) {
+                max = i;
+            }
+        }
+        short[] res = new short[256*256];
+        for (int i = 0; i < 256; i++) {
+            for (int j = 0; j < 256; j++) {
+                if (j < h[i] * 256 / max) {
+                    res[(255 - j) * 256 + i] = 255;
+                } else {
+                    res[(255 - j) * 256 + i] = 0;
+                }
+            }
+        }
+        return res;
+    }
+
     public static short[] binarisation(short[] data) {
         double t = getOtsuThreshold(data);
         for (int i = 0; i < data.length; i++) {
@@ -212,7 +233,7 @@ public class MyClassPGM {
             tmp += (double) hist[i] / (double) data.length;
             hist2[i] = tmp;
         }
-        for (int i = 0; i < data.length ; i++) {
+        for (int i = 0; i < data.length; i++) {
             data[i] = (short) (hist2[data[i]] * 255);
         }
         return data;
@@ -303,29 +324,39 @@ public class MyClassPGM {
                 double[] variances = new double[9];
                 // fenêtres de Nagao
                 short[] f1 = {v[0], v[1], v[5], v[6], v[7], v[11], v[12]};
-                moyennes[0] = getMean(f1); variances[0] = getVariance(f1);
+                moyennes[0] = getMean(f1);
+                variances[0] = getVariance(f1);
                 short[] f2 = {v[1], v[2], v[3], v[6], v[7], v[8], v[12]};
-                moyennes[1] = getMean(f2); variances[1] = getVariance(f2);
+                moyennes[1] = getMean(f2);
+                variances[1] = getVariance(f2);
                 short[] f3 = {v[3], v[4], v[7], v[8], v[9], v[12], v[13]};
-                moyennes[2] = getMean(f3); variances[2] = getVariance(f3);
+                moyennes[2] = getMean(f3);
+                variances[2] = getVariance(f3);
                 short[] f4 = {v[5], v[6], v[10], v[11], v[12], v[15], v[16]};
-                moyennes[3] = getMean(f4); variances[3] = getVariance(f4);
+                moyennes[3] = getMean(f4);
+                variances[3] = getVariance(f4);
                 short[] f5 = {v[8], v[9], v[12], v[13], v[14], v[18], v[19]};
-                moyennes[4] = getMean(f5); variances[4] = getVariance(f5);
+                moyennes[4] = getMean(f5);
+                variances[4] = getVariance(f5);
                 short[] f6 = {v[6], v[7], v[8], v[11], v[12], v[13], v[16], v[17], v[18]};
-                moyennes[5] = getMean(f6); variances[5] = getVariance(f6);
+                moyennes[5] = getMean(f6);
+                variances[5] = getVariance(f6);
                 short[] f7 = {v[11], v[12], v[15], v[16], v[17], v[20], v[21]};
-                moyennes[6] = getMean(f7); variances[6] = getVariance(f7);
+                moyennes[6] = getMean(f7);
+                variances[6] = getVariance(f7);
                 short[] f8 = {v[12], v[16], v[17], v[18], v[21], v[22], v[23]};
-                moyennes[7] = getMean(f8); variances[7] = getVariance(f8);
+                moyennes[7] = getMean(f8);
+                variances[7] = getVariance(f8);
                 short[] f9 = {v[12], v[13], v[17], v[18], v[19], v[23], v[24]};
-                moyennes[8] = getMean(f9); variances[8] = getVariance(f9);
+                moyennes[8] = getMean(f9);
+                variances[8] = getVariance(f9);
 
                 // on récupère l'indice de la plus petite variance
                 int indice = 0;
                 for (int m = 1; m < 9; ++m) {
-                    if (variances[m] < variances[indice])
+                    if (variances[m] < variances[indice]) {
                         indice = m;
+                    }
                 }
 
                 ret[j * width + i] = (short) moyennes[indice];

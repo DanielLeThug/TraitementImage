@@ -12,11 +12,11 @@ import java.io.IOException;
  * Created by Simon on 21/03/2017.
  */
 public class MyInterfaceGraphique extends JFrame {
-    
+
     private ShortPixmap pgm = null;
     private ByteRGBPixmap ppm = null;
     private String path = null;
-    
+
     private BufferedImage bufferImagePGM(ShortPixmap pgm) {
         BufferedImage img = new BufferedImage(pgm.width, pgm.height, BufferedImage.TYPE_INT_RGB);
         for (int i = 0; i < pgm.width; i++) {
@@ -27,7 +27,7 @@ public class MyInterfaceGraphique extends JFrame {
         }
         return img;
     }
-    
+
     private BufferedImage bufferImagePPM(ByteRGBPixmap ppm) {
         BufferedImage img = new BufferedImage(ppm.width, ppm.height, BufferedImage.TYPE_INT_RGB);
         short[] red = ppm.r.getShorts();
@@ -43,15 +43,15 @@ public class MyInterfaceGraphique extends JFrame {
         }
         return img;
     }
-    
+
     private JMenuBar mb;
-    
+
     private JMenu mFile;
     private JMenuItem miOpen;
     private JMenuItem miSave;
     private JMenuItem miSaveAs;
     private JMenuItem miClose;
-    
+
     private JMenu mEdit;
     private JMenu mHisto;
     private JMenu mFiltre;
@@ -62,18 +62,18 @@ public class MyInterfaceGraphique extends JFrame {
     private JMenuItem miNagao;
     private JMenuItem miMedian;
     private JMenuItem miOtsu;
-    
+
     private JLabel label;
-    
+
     public MyInterfaceGraphique() {
         super("Ida et Chackal");
-        
+
         label = new JLabel();
-        
+
         mb = new JMenuBar();
-        
+
         mFile = new JMenu("File");
-        
+
         miOpen = new JMenuItem("Open");
         //Add actions ?
         ActionListener alOpen = e -> {
@@ -126,7 +126,7 @@ public class MyInterfaceGraphique extends JFrame {
         };
         miOpen.addActionListener(alOpen);
         mFile.add(miOpen);
-        
+
         miSave = new JMenuItem("Save");
         ActionListener alSave = e -> {
             if (pgm != null) {
@@ -139,7 +139,7 @@ public class MyInterfaceGraphique extends JFrame {
         };
         miSave.addActionListener(alSave);
         mFile.add(miSave);
-        
+
         miSaveAs = new JMenuItem("Save as");
         ActionListener alSaveAs = e -> {
             if (pgm != null) {
@@ -178,7 +178,7 @@ public class MyInterfaceGraphique extends JFrame {
         };
         miSaveAs.addActionListener(alSaveAs);
         mFile.add(miSaveAs);
-        
+
         miClose = new JMenuItem("Close");
         //Add Actions ?
         ActionListener alClose = e -> {
@@ -189,9 +189,9 @@ public class MyInterfaceGraphique extends JFrame {
         };
         miClose.addActionListener(alClose);
         mFile.add(miClose);
-        
+
         mEdit = new JMenu("Edit");
-        
+
         mHisto = new JMenu("Histo"); // A MODIFIER
         miHisto = new JMenuItem("Histogramme");
         miEtirement = new JMenuItem("Étirement");
@@ -201,15 +201,15 @@ public class MyInterfaceGraphique extends JFrame {
         // ACTIONLISTENER TO DO
         ActionListener alHisto = e -> {
             if (pgm != null) {
-                //pgm = MyClassPGM.histogramme();
-                //label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
+                pgm = new ShortPixmap(256, 256, MyClassPGM.histogramme(pgm.width, pgm.data));
+                label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
             } else if (ppm != null) {
                 //ppm = MyClassPPM.histogramme();
                 //label.setIcon(new ImageIcon(bufferImagePGM(ppm)));
             }
         };
         miHisto.addActionListener(alHisto);
-        
+
         ActionListener alEtirement = e -> {
             if (pgm != null) {
                 pgm = new ShortPixmap(pgm.width, pgm.height, MyClassPGM.etirementHisto(pgm.data));
@@ -220,7 +220,7 @@ public class MyInterfaceGraphique extends JFrame {
             }
         };
         miEtirement.addActionListener(alEtirement);
-        
+
         ActionListener alEgalisation = e -> {
             if (pgm != null) {
                 pgm = new ShortPixmap(pgm.width, pgm.height, MyClassPGM.egalisationHisto(pgm.data));
@@ -231,7 +231,7 @@ public class MyInterfaceGraphique extends JFrame {
             }
         };
         miEgalisation.addActionListener(alEgalisation);
-        
+
         ActionListener alSpecification = e -> {
             if (pgm != null) {
                 ShortPixmap tmp = null;
@@ -282,7 +282,7 @@ public class MyInterfaceGraphique extends JFrame {
             }
         };
         miSpecification.addActionListener(alSpecification);
-        
+
         mFiltre = new JMenu("Filtres");
         miMedian = new JMenuItem("Médian");
         ActionListener alMedian = e -> {
@@ -299,7 +299,7 @@ public class MyInterfaceGraphique extends JFrame {
         miNagao = new JMenuItem("Nagao");
         ActionListener alNagao = (ActionEvent ae) -> {
             if (pgm != null) {
-                pgm =  new ShortPixmap(pgm.width, pgm.height, MyClassPGM.filtreNagao(pgm.width, pgm.height, pgm.data));
+                pgm = new ShortPixmap(pgm.width, pgm.height, MyClassPGM.filtreNagao(pgm.width, pgm.height, pgm.data));
                 label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
             } else if (ppm != null) {
                 ppm = MyClassPPM.filtreNagao(ppm);
@@ -316,7 +316,7 @@ public class MyInterfaceGraphique extends JFrame {
             } else if (ppm != null) {
                 ppm = MyClassPPM.binarisation(ppm);
                 label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
-            }            
+            }
         };
         miOtsu.addActionListener(alOtsu);
 
@@ -325,31 +325,31 @@ public class MyInterfaceGraphique extends JFrame {
         mHisto.add(miEtirement);
         mHisto.add(miEgalisation);
         mHisto.add(miSpecification);
-        
+
         mFiltre.add(miMedian);
         mFiltre.add(miNagao);
-        
+
         mEdit.add(mHisto);
         mEdit.add(mFiltre);
         mEdit.add(miOtsu);
-        
+
         mb.add(mFile);
         mb.add(mEdit);
         setJMenuBar(mb);
-        
+
         label.setHorizontalAlignment(JLabel.CENTER);
         add(label);
 
         // Seulement quand aucun fichier est ouvert
         mEdit.setEnabled(false);
-        
+
         miSave.setEnabled(false);
         miSaveAs.setEnabled(false);
-        
+
         setPreferredSize(new Dimension(300, 150));
         pack();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setVisible(true);
     }
-    
+
 }
