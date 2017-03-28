@@ -259,7 +259,7 @@ public class MyClassPGM {
     }
 
     public static short[] filtreMedian(int width, int height, short[] data) { // on peut mettre le nombre de cases en param (carré de 3pix par défaut mais pourrait être 5/7/etc
-        short[] newSP = new short[data.length];
+        short[] newSP = data;
         short[] v = new short[9];
         short r = 0;
         for (int i = 1; i < width - 1; i++) {
