@@ -14,4 +14,8 @@ public class MyClassPPM {
     public static ByteRGBPixmap egalisationHisto(ByteRGBPixmap bp) {
         return new ByteRGBPixmap(bp.width, bp.height, Pixmap.getBytes(MyClassPGM.egalisationHisto(bp.r.getShorts())), Pixmap.getBytes(MyClassPGM.egalisationHisto(bp.g.getShorts())), Pixmap.getBytes(MyClassPGM.egalisationHisto(bp.b.getShorts())));
     }
+
+    public static ByteRGBPixmap specificationHisto(ByteRGBPixmap bp, ByteRGBPixmap tmp) {
+        return new ByteRGBPixmap(bp.width, bp.height, Pixmap.getBytes(MyClassPGM.specificationHisto(bp.r.getShorts(), tmp.r.getShorts())), Pixmap.getBytes(MyClassPGM.specificationHisto(bp.g.getShorts(), tmp.g.getShorts())), Pixmap.getBytes(MyClassPGM.specificationHisto(bp.b.getShorts(), tmp.b.getShorts())));
+    }
 }

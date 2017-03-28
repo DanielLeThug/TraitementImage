@@ -218,24 +218,24 @@ public class MyClassPGM {
         return data;
     }
 
-    public static ShortPixmap specificationHisto(ShortPixmap spToModif, ShortPixmap sp) {
-        long[] hist1 = getHistogramme(spToModif.data);
-        long[] hist2 = getHistogramme(sp.data);
+    public static short[] specificationHisto(short[] dataToModif, short[] datatmp) {
+        long[] hist1 = getHistogramme(dataToModif);
+        long[] hist2 = getHistogramme(datatmp);
         double[] hist3 = new double[256];
         double[] hist4 = new double[256];
         double tmp1 = 0.0, tmp2 = 0.0;
         for (int i = 0; i < 256; i++) {
-            tmp1 += (double) hist1[i] / (double) spToModif.size;
+            tmp1 += (double) hist1[i] / (double) dataToModif.length;
             hist3[i] = tmp1;
-            tmp2 += (double) hist2[i] / (double) sp.size;
+            tmp2 += (double) hist2[i] / (double) datatmp.length;
             hist4[i] = tmp2;
         }
 
         double dif = 0.0, dif2 = 0.0;
         double val;
-        for (int i = 0; i < spToModif.size; i++) {
+        for (int i = 0; i < dataToModif.length; i++) {
             short j = 0;
-            val = hist3[spToModif.data[i]];
+            val = hist3[dataToModif[i]];
             while (j < 256 && hist4[j] == 0.0) {
                 j++;
             }
@@ -253,9 +253,9 @@ public class MyClassPGM {
                 }
                 dif2 = val - hist4[j];
             }
-            spToModif.data[i] = j;
+            dataToModif[i] = j;
         }
-        return spToModif;
+        return dataToModif;
     }
 
     public static ShortPixmap filtreMedian(ShortPixmap sp) { // on peut mettre le nombre de cases en param (carré de 3pix par défaut mais pourrait être 5/7/etc
