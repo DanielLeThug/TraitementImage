@@ -223,11 +223,11 @@ public class MyInterfaceGraphique extends JFrame {
         
         ActionListener alEgalisation = e -> {
             if (pgm != null) {
-                pgm = MyClassPGM.egalisationHisto(pgm);
+                pgm = new ShortPixmap(pgm.width, pgm.height, MyClassPGM.egalisationHisto(pgm.data));
                 label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
             } else if (ppm != null) {
-                //ppm = MyClassPPM.egalisationHisto(ppm);
-                //label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
+                ppm = MyClassPPM.egalisationHisto(ppm);
+                label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
             }
         };
         miEgalisation.addActionListener(alEgalisation);

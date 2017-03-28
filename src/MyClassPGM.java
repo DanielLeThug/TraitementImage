@@ -204,18 +204,18 @@ public class MyClassPGM {
         return data;
     }
 
-    public static ShortPixmap egalisationHisto(ShortPixmap sp) {
-        long[] hist = getHistogramme(sp.data);
+    public static short[] egalisationHisto(short[] data) {
+        long[] hist = getHistogramme(data);
         double[] hist2 = new double[256];
         double tmp = 0;
         for (int i = 0; i < 256; i++) {
-            tmp += (double) hist[i] / (double) sp.size;
+            tmp += (double) hist[i] / (double) data.length;
             hist2[i] = tmp;
         }
-        for (int i = 0; i < sp.size; i++) {
-            sp.data[i] = (short) (hist2[sp.data[i]] * 255);
+        for (int i = 0; i < data.length ; i++) {
+            data[i] = (short) (hist2[data[i]] * 255);
         }
-        return sp;
+        return data;
     }
 
     public static ShortPixmap specificationHisto(ShortPixmap spToModif, ShortPixmap sp) {
