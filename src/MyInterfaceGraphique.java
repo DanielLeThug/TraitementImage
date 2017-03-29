@@ -51,7 +51,7 @@ public class MyInterfaceGraphique extends JFrame {
     private JMenuItem miSave;
     private JMenuItem miSaveAs;
     private JMenuItem miReset;
-    private JMenuItem miClose;
+    private JMenuItem miExit;
 
     private JMenu mEdit;
     private JMenu mHisto;
@@ -73,12 +73,13 @@ public class MyInterfaceGraphique extends JFrame {
 
         mb = new JMenuBar();
 
+        //Menu contenant les actions image
         mFile = new JMenu("File");
 
+        //Permet d'ouvrir une nouvelle image
         miOpen = new JMenuItem("Open");
-        //Add actions ?
         ActionListener alOpen = e -> {
-            //Open file ppm or pgm
+            //Ouvrir une image ppm ou pgm
             JFileChooser fc = new JFileChooser();
             fc.addChoosableFileFilter(new FileNameExtensionFilter("PGM Images", "pgm"));
             fc.addChoosableFileFilter(new FileNameExtensionFilter("PPM Images", "ppm"));
@@ -89,15 +90,18 @@ public class MyInterfaceGraphique extends JFrame {
             fc.setDragEnabled(false);
             int returnval = fc.showOpenDialog(getParent());
             if (returnval == JFileChooser.APPROVE_OPTION) {
+                //Cas d'une image pgm
                 if (fc.getSelectedFile().toString().endsWith(".pgm")) {
                     try {
                         ppm = null;
+                        //Récupération de l'image
                         pgm = new ShortPixmap(fc.getSelectedFile().getAbsolutePath());
                         label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
 
                         setPreferredSize(new Dimension(pgm.width + 50, pgm.height + 80));
                         pack();
 
+                        //On rend les boutons utilisables
                         mEdit.setEnabled(true);
                         miSave.setEnabled(true);
                         miSaveAs.setEnabled(true);
@@ -107,15 +111,18 @@ public class MyInterfaceGraphique extends JFrame {
                     }
                 }
 
+                //Cas d'une image ppm
                 if (fc.getSelectedFile().toString().endsWith(".ppm")) {
                     try {
                         pgm = null;
+                        //Récupération de l'image
                         ppm = new ByteRGBPixmap(fc.getSelectedFile().getAbsolutePath());
                         label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
 
                         setPreferredSize(new Dimension(ppm.width + 50, ppm.height + 80));
                         pack();
 
+                        //On rend les boutons utilisables
                         mEdit.setEnabled(true);
                         miSave.setEnabled(true);
                         miSaveAs.setEnabled(true);
@@ -130,6 +137,7 @@ public class MyInterfaceGraphique extends JFrame {
         miOpen.addActionListener(alOpen);
         mFile.add(miOpen);
 
+        //Permet de sauvegarder et écraser l'image
         miSave = new JMenuItem("Save");
         ActionListener alSave = e -> {
             if (pgm != null) {
@@ -143,8 +151,10 @@ public class MyInterfaceGraphique extends JFrame {
         miSave.addActionListener(alSave);
         mFile.add(miSave);
 
+        //Permet de sauvegarder l'image à l'endroit de son choix
         miSaveAs = new JMenuItem("Save as");
         ActionListener alSaveAs = e -> {
+            //Cas d'une image pgm
             if (pgm != null) {
                 JFileChooser fc = new JFileChooser();
                 fc.setFileFilter(new FileNameExtensionFilter("PGM Images", "pgm"));
@@ -161,6 +171,7 @@ public class MyInterfaceGraphique extends JFrame {
                         JOptionPane.showMessageDialog(null, "File saved", "Information", JOptionPane.INFORMATION_MESSAGE);
                     }
                 }
+            //Cas d'une image ppm
             } else if (ppm != null) {
                 JFileChooser fc = new JFileChooser();
                 fc.setFileFilter(new FileNameExtensionFilter("PPM Images", "ppm"));
@@ -182,8 +193,10 @@ public class MyInterfaceGraphique extends JFrame {
         miSaveAs.addActionListener(alSaveAs);
         mFile.add(miSaveAs);
 
+        //Permet de réinitialiser l'image et supprimer toutes modifications
         miReset = new JMenuItem("Reset");
         ActionListener alReset = e -> {
+            //Cas d'une image pgm
             if (pgm != null) {
                 try {
                     pgm = new ShortPixmap(path);
@@ -192,6 +205,7 @@ public class MyInterfaceGraphique extends JFrame {
                         e1.printStackTrace();
                 }
             }
+            //Cas d'une image ppm
             else if (ppm != null) {
                 try {
                     ppm = new ByteRGBPixmap(path);
@@ -204,26 +218,30 @@ public class MyInterfaceGraphique extends JFrame {
         miReset.addActionListener(alReset);
         mFile.add(miReset);
 
-        miClose = new JMenuItem("Close");
-        //Add Actions ?
-        ActionListener alClose = e -> {
+        //Permet de fermer l'application
+        miExit = new JMenuItem("Exit");
+        ActionListener alExit = e -> {
             if (isDisplayable()) {
                 dispose();
             }
         };
-        miClose.addActionListener(alClose);
-        mFile.add(miClose);
+        miExit.addActionListener(alExit);
+        mFile.add(miExit);
 
+        //Menu les actions d'édition de l'image
         mEdit = new JMenu("Edit");
 
+        //Concerne les opérations sur l'histogramme de l'image
         mHisto = new JMenu("Histogramme");
+
         miHisto = new JMenuItem("Afficher");
         miEtirement = new JMenuItem("Étirement");
         miEgalisation = new JMenuItem("Égalisation");
         miSpecification = new JMenuItem("Spécification");
 
-        // ACTIONLISTENER TO DO
+        //Permet d'afficher l'histogramme de l'image
         ActionListener alHisto = e -> {
+            //Cas d'une image pgm
             if (pgm != null) {
                 ShortPixmap pgmHisto = new ShortPixmap(256, 256, MyClassPGM.histogramme(pgm.data));
                 JFrame tmp = new JFrame("Histogramme");
@@ -234,8 +252,9 @@ public class MyInterfaceGraphique extends JFrame {
                 tmp.getContentPane().setBackground(Color.BLACK);
                 tmp.setPreferredSize(new Dimension(pgmHisto.width + 50, pgmHisto.height + 50));
                 tmp.pack();
-                tmp.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                tmp.setDefaultCloseOperation(DISPOSE_ON_Close);
                 tmp.setVisible(true);
+            //Cas d'une image ppm
             } else if (ppm != null) {
                 ByteRGBPixmap pgmHisto = new ByteRGBPixmap(256, 256, Pixmap.getBytes(MyClassPGM.histogramme(ppm.r.getShorts())), Pixmap.getBytes(MyClassPGM.histogramme(ppm.g.getShorts())), Pixmap.getBytes(MyClassPGM.histogramme(ppm.b.getShorts())));
                 JFrame tmp = new JFrame("Histogramme");
@@ -246,16 +265,19 @@ public class MyInterfaceGraphique extends JFrame {
                 tmp.getContentPane().setBackground(Color.BLACK);
                 tmp.setPreferredSize(new Dimension(pgmHisto.width + 50, pgmHisto.height + 50));
                 tmp.pack();
-                tmp.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                tmp.setDefaultCloseOperation(DISPOSE_ON_Close);
                 tmp.setVisible(true);
             }
         };
         miHisto.addActionListener(alHisto);
 
+        //Permet d'étirer l'histogramme de l'image
         ActionListener alEtirement = e -> {
+            //Cas d'une image pgm
             if (pgm != null) {
                 pgm = new ShortPixmap(pgm.width, pgm.height, MyClassPGM.etirementHisto(pgm.data));
                 label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
+            //Cas d'une image ppm
             } else if (ppm != null) {
                 ppm = MyClassPPM.etirementHisto(ppm);
                 label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
@@ -263,10 +285,13 @@ public class MyInterfaceGraphique extends JFrame {
         };
         miEtirement.addActionListener(alEtirement);
 
+        //Permet d'égaliser l'histogramme de l'image
         ActionListener alEgalisation = e -> {
+            //Cas d'une image pgm
             if (pgm != null) {
                 pgm = new ShortPixmap(pgm.width, pgm.height, MyClassPGM.egalisationHisto(pgm.data));
                 label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
+            //Cas d'une image ppm
             } else if (ppm != null) {
                 ppm = MyClassPPM.egalisationHisto(ppm);
                 label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
@@ -274,7 +299,9 @@ public class MyInterfaceGraphique extends JFrame {
         };
         miEgalisation.addActionListener(alEgalisation);
 
+        //Permet de spécifier l'histogramme de l'image actuelle par rapport à l'histogramme d'une autre image
         ActionListener alSpecification = e -> {
+            //Cas d'une image pgm
             if (pgm != null) {
                 ShortPixmap tmp = null;
                 JFileChooser fc = new JFileChooser();
@@ -298,6 +325,7 @@ public class MyInterfaceGraphique extends JFrame {
                         JOptionPane.showMessageDialog(null, "Mauvais format de fichier", "Warning", JOptionPane.WARNING_MESSAGE);
                     }
                 }
+            //Cas d'une imge ppm
             } else if (ppm != null) {
                 ByteRGBPixmap tmp = null;
                 JFileChooser fc = new JFileChooser();
@@ -325,12 +353,17 @@ public class MyInterfaceGraphique extends JFrame {
         };
         miSpecification.addActionListener(alSpecification);
 
+        //Concerne les opération de filtre sur l'image
         mFiltre = new JMenu("Filtres");
+
+        //Applique le filtre médian à l'image
         miMedian = new JMenuItem("Médian");
         ActionListener alMedian = e -> {
+            //Cas d'une image pgm
             if (pgm != null) {
                 pgm = new ShortPixmap(pgm.width, pgm.height, MyClassPGM.filtreMedian(pgm.width, pgm.height, pgm.data));
                 label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
+            //Cas d'une image ppm
             } else if (ppm != null) {
                 ppm = MyClassPPM.filtreMedian(ppm);
                 label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
@@ -338,11 +371,14 @@ public class MyInterfaceGraphique extends JFrame {
         };
         miMedian.addActionListener(alMedian);
 
+        //Applique le filtre Nagao à l'image
         miNagao = new JMenuItem("Nagao");
         ActionListener alNagao = (ActionEvent ae) -> {
+            //Cas d'une image pgm
             if (pgm != null) {
                 pgm = new ShortPixmap(pgm.width, pgm.height, MyClassPGM.filtreNagao(pgm.width, pgm.height, pgm.data));
                 label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
+            //Cas d'une image ppm
             } else if (ppm != null) {
                 ppm = MyClassPPM.filtreNagao(ppm);
                 label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
@@ -350,11 +386,14 @@ public class MyInterfaceGraphique extends JFrame {
         };
         miNagao.addActionListener(alNagao);
 
+        //Applique le filtre Otsu à l'image
         miOtsu = new JMenuItem("Otsu");
         ActionListener alOtsu = (ActionEvent ae) -> {
+            //Cas d'une image pgm
             if (pgm != null) {
                 pgm = new ShortPixmap(pgm.width, pgm.height, MyClassPGM.binarisation(pgm.data));
                 label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
+            //Cas d'une image ppm
             } else if (ppm != null) {
                 ppm = MyClassPPM.binarisation(ppm);
                 label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
@@ -362,12 +401,13 @@ public class MyInterfaceGraphique extends JFrame {
         };
         miOtsu.addActionListener(alOtsu);
 
-        // ACTIONLISTENER TO DO
+        //Ajouts de chaque sous-menu au menu
         mHisto.add(miHisto);
         mHisto.add(miEtirement);
         mHisto.add(miEgalisation);
         mHisto.add(miSpecification);
 
+        //Ajouts de chaque bouton aux sous-menus
         mFiltre.add(miMedian);
         mFiltre.add(miNagao);
 
@@ -379,19 +419,21 @@ public class MyInterfaceGraphique extends JFrame {
         mb.add(mEdit);
         setJMenuBar(mb);
 
+        //Affichage de l'image
         label.setHorizontalAlignment(JLabel.CENTER);
         add(label);
 
-        // Seulement quand aucun fichier est ouvert
+        //Rend inutilisables certains boutons tant qu'aucune image n'est chargée
         mEdit.setEnabled(false);
 
         miSave.setEnabled(false);
         miSaveAs.setEnabled(false);
         miReset.setEnabled(false);
 
+        //Affichage de la fenêtre
         setPreferredSize(new Dimension(300, 150));
         pack();
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_Close);
         setVisible(true);
     }
 
