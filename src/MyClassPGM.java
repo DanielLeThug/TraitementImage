@@ -255,29 +255,18 @@ public class MyClassPGM {
             hist4[i] = tmp2;
         }
 
-        double dif = 0.0, dif2 = 0.0;
-        double val;
-        for (int i = 0; i < dataToModif.length; i++) {
-            short j = 0;
-            val = hist3[dataToModif[i]];
-            while (j < 256 && hist4[j] == 0.0) {
-                j++;
+        short[] tabModif = new short[256];
+        for(short i = 0; i < 256; i++) {
+            double min = 100;
+            double dif;
+            for(short j = 0; j < 256; j++) {
+                dif = Math.abs(hist1[i] - hist2[j]);
+                if(dif < min) tabModif[i] = j;
             }
-            dif = val - hist4[j];
-            while (j + 1 < 256 && hist4[j] == hist4[j + 1]) {
-                j++;
-            }
-            j++;
-            dif2 = val - hist4[j];
+        }
 
-            while (Math.abs(dif) > Math.abs(dif2)) {
-                dif = dif2;
-                while (j + 1 < 256 && hist4[j] == hist4[j + 1]) {
-                    j++;
-                }
-                dif2 = val - hist4[j];
-            }
-            dataToModif[i] = j;
+        for (int i = 0; i < dataToModif.length; i++) {
+            dataToModif[i] = tabModif[dataToModif[i]];
         }
         return dataToModif;
     }
