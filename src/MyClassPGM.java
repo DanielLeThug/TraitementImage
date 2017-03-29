@@ -1,4 +1,3 @@
-
 import java.util.Arrays;
 
 /**
@@ -6,11 +5,14 @@ import java.util.Arrays;
  */
 public class MyClassPGM {
 
+    /**
+     * Calcule l'histogramme de l'image et le stocke pour l'affichage
+     * @param data
+     *              Pixels de l'image
+     * @return l'histogramme de l'image
+     */
     public static short[] histogramme(short[] data) {
         long[] h = getHistogramme(data);
-        /*for(int i = 0 ; i < 256 ; i++)
-            if(h[i] != 0 )
-                System.out.println(i+" : "+ h[i]);*/
         long max = 0;
         for (int i = 0; i < 256; i++) 
         {
@@ -35,6 +37,12 @@ public class MyClassPGM {
         return res;
     }
 
+    /**
+     * Applique l'algorithme d'Otsu sur l'image pour la binariser
+     * @param data
+     *              Pixels de l'image
+     * @return l'image binarisée
+     */
     public static short[] binarisation(short[] data) {
         double t = getOtsuThreshold(data);
         for (int i = 0; i < data.length; i++) {
@@ -47,6 +55,12 @@ public class MyClassPGM {
         return data;
     }
 
+    /**
+     * Retourne la valeur du seuil nécessaire à Otsu
+     * @param data
+     *              Pixels de l'image
+     * @return la valeur du seuil
+     */
     public static double getOtsuThreshold(short[] data) {
 
         long[] n = getHistogramme(data);
@@ -65,16 +79,22 @@ public class MyClassPGM {
 
     }
 
+    /**
+     * Retourne l'histogramme associé à l'image
+     * @param data
+     *              Pixels de l'image
+     * @return l'histogramme
+     */
     public static long[] getHistogramme(short[] data) {
         long[] hist = new long[256];
 
         for (int i = 0; i < data.length; i++) {
             hist[data[i]]++;
         }
-        // TODO utiliser un canevas pour afficher l'histo ?
         return hist;
     }
 
+    //Fonction nécessaire à Otsu
     private static double[] getProbabilities(long[] histogram, int totalPixels) {
 
         double[] probability = new double[histogram.length];
@@ -86,6 +106,7 @@ public class MyClassPGM {
         return probability;
     }
 
+    //Fonction nécessaire à Otsu
     private static double[] getWo(double[] probability) {
 
         double[] Wo = new double[probability.length];
@@ -97,6 +118,7 @@ public class MyClassPGM {
         return Wo;
     }
 
+    //Fonction nécessaire à Otsu
     private static double getW(double[] probability) {
 
         double W = 0;
@@ -107,6 +129,7 @@ public class MyClassPGM {
         return W;
     }
 
+    //Fonction nécessaire à Otsu
     private static double[] getW1(double[] Wo, double W) {
 
         double[] W1 = new double[Wo.length];
@@ -118,6 +141,7 @@ public class MyClassPGM {
         return W1;
     }
 
+    //Fonction nécessaire à Otsu
     private static double getUT(double[] probability) {
 
         double UT = 0;
@@ -129,6 +153,7 @@ public class MyClassPGM {
 
     }
 
+    //Fonction nécessaire à Otsu
     private static double[] getUt(double[] probability) {
 
         double[] Ut = new double[probability.length];
@@ -141,6 +166,7 @@ public class MyClassPGM {
         return Ut;
     }
 
+    //Fonction nécessaire à Otsu
     private static double[] getUo(double[] Ut, double[] Wo) {
 
         double[] Uo = new double[Ut.length];
@@ -156,6 +182,7 @@ public class MyClassPGM {
 
     }
 
+    //Fonction nécessaire à Otsu
     private static double[] getU1(double UT, double[] Ut, double[] Uo) {
 
         double[] U1 = new double[Ut.length];
@@ -172,6 +199,7 @@ public class MyClassPGM {
 
     }
 
+    //Fonction nécessaire à Otsu
     private static double getSigmaSqrT(double UT, double[] probability) {
 
         double sigmaSqrT = 0;
@@ -183,6 +211,7 @@ public class MyClassPGM {
 
     }
 
+    //Fonction nécessaire à Otsu
     private static double[] getSigmaSqrBt(double[] Wo, double[] W1, double[] U1, double[] Uo) {
         double sigmaSqrBt[] = new double[Wo.length];
 
@@ -193,6 +222,7 @@ public class MyClassPGM {
         return sigmaSqrBt;
     }
 
+    //Fonction nécessaire à Otsu
     private static int getMaxIndex(double[] array) {
 
         int maxIndex = 0;
@@ -205,6 +235,7 @@ public class MyClassPGM {
 
     }
 
+    //Fonction nécessaire à Otsu
     private static double[] getEta(double[] sigmaSqrBt, double sigmaSqrT) {
         double eta[] = new double[sigmaSqrBt.length];
         for (int index = 0; index < sigmaSqrBt.length; index++) {
@@ -213,6 +244,12 @@ public class MyClassPGM {
         return eta;
     }
 
+    /**
+     * Etire l'histogramme de l'image
+     * @param data
+     *              Pixels de l'image
+     * @return l'histogramme étiré
+     */
     public static short[] etirementHisto(short[] data) {
         long[] hist = getHistogramme(data);
         double max, min;
@@ -233,6 +270,12 @@ public class MyClassPGM {
         return data;
     }
 
+    /**
+     * Egalise l'histogramme de l'image
+     * @param data
+     *              Pixels de l'image
+     * @return l'histogramme égalisé
+     */
     public static short[] egalisationHisto(short[] data) {
         long[] hist = getHistogramme(data);
         double[] hist2 = new double[256];
@@ -247,6 +290,14 @@ public class MyClassPGM {
         return data;
     }
 
+    /**
+     * Spécifie l'histogramme de l'image par rapport à l'histogramme d'une autre image
+     * @param dataToModif
+     *                      Pixels de l'image à modifier
+     * @param datatmp
+     *                      Pixels de la seconde image
+     * @return l'histogramme spécifié
+     */
     public static short[] specificationHisto(short[] dataToModif, short[] datatmp) {
         long[] hist1 = getHistogramme(dataToModif);
         long[] hist2 = getHistogramme(datatmp);
@@ -279,6 +330,16 @@ public class MyClassPGM {
         return dataToModif;
     }
 
+    /**
+     * Applique le filtre médian à l'image
+     * @param width
+     *              Largeur de l'image
+     * @param height
+     *              Hauteur de l'image
+     * @param data
+     *              Pixels de l'image
+     * @return l'image modifiée
+     */
     public static short[] filtreMedian(int width, int height, short[] data) { // on peut mettre le nombre de cases en param (carré de 3pix par défaut mais pourrait être 5/7/etc
         short[] newSP = data;
         short[] v = new short[9];
@@ -296,19 +357,33 @@ public class MyClassPGM {
         return newSP;
     }
 
+    /**
+     * Retourne la valeur médiane d'un tableau de short
+     * @param v
+     *          tableau de short
+     * @return la valeur médiane
+     */
     public static short valeurMediane(short[] v) {
         Arrays.sort(v);
+        //on prend la 5e valeur du vecteur car il contient toujours 9 valeurs ici
         return v[4];
-        /* on prend la 5e valeur du vecteur car notre vecteur contient ici
-         toujours 9 valeurs */
     }
 
+    /**
+     * Applique le filtre Nagao à l'image
+     * @param width
+     *              Largeur de l'image
+     * @param height
+     *              Hauteur de l'image
+     * @param data
+     *              Pixels de l'image
+     * @return l'image modifiée
+     */
     public static short[] filtreNagao(int width, int height, short[] data) {
         short[] ret = data;
         int pos;
         for (int i = 2; i < width - 2; i++) {
             for (int j = 2; j < height - 2; j++) {
-                // utiliser les 3 petits points de java
                 pos = 0;
                 // on stocke les 25 pixels concernés
                 short[] v = new short[25];
@@ -364,6 +439,12 @@ public class MyClassPGM {
         return ret;
     }
 
+    /**
+     * Retourne la moyenne d'un tableau de short
+     * @param v
+     *          tableau de short
+     * @return la moyenne
+     */
     public static double getMean(short[] v) {
         double sum = 0.0;
         for (short a : v) {
@@ -372,6 +453,12 @@ public class MyClassPGM {
         return sum / v.length;
     }
 
+    /**
+     * Retourne la variance d'un tableau de short
+     * @param v
+     *          tableau de short
+     * @return la variance
+     */
     public static double getVariance(short[] v) {
         double mean = getMean(v);
         double temp = 0;
@@ -380,5 +467,4 @@ public class MyClassPGM {
         }
         return temp / v.length;
     }
-
 }
