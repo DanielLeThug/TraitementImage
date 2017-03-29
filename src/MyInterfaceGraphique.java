@@ -65,7 +65,8 @@ public class MyInterfaceGraphique extends JFrame {
     private JMenuItem miOtsu;
     private JMenuItem miAnd;
     private JMenuItem miOr;
-    
+    private JMenuItem miXor;
+
     private JLabel label;
 
     public MyInterfaceGraphique() {
@@ -405,12 +406,16 @@ public class MyInterfaceGraphique extends JFrame {
             }
         };
         miOtsu.addActionListener(alOtsu);
-        
+
+
         mLogic = new JMenu("Logic");
+        //Applique l'opérateur ET entre deux images
         miAnd = new JMenuItem("And");
         ActionListener alAnd = e -> {
+            //Si l'image est en PGM
             if (pgm != null) {
                 ShortPixmap tmp = null;
+                //JFileChooser permet d'ouvrir la 2eme image
                 JFileChooser fc = new JFileChooser();
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("PGM Images", "pgm");
                 fc.setFileFilter(filter);
@@ -420,24 +425,30 @@ public class MyInterfaceGraphique extends JFrame {
                 fc.setDragEnabled(false);
                 int returnval = fc.showOpenDialog(getParent());
                 if (returnval == JFileChooser.APPROVE_OPTION) {
+                    //Si la 2eme est PGM
                     if (fc.getSelectedFile().toString().endsWith(".pgm")) {
                         try {
                             tmp = new ShortPixmap(fc.getSelectedFile().getAbsolutePath());
                         } catch (IOException e1) {
                             e1.printStackTrace();
                         }
+                        //Vérification si la dimension des deux images est la même, affichage d'un warning si non
                         if(tmp.width != pgm.width || tmp.height != pgm.height) {
                             JOptionPane.showMessageDialog(null, "Mauvaises dimensions de l'image", "Warning", JOptionPane.WARNING_MESSAGE);
                         } else {
+                            //Application de l'opérateur si tout est ok
                             pgm = new ShortPixmap(pgm.width, pgm.height, MyClassPGM.and(pgm.data, tmp.data));
                             label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
                         }
                     } else {
+                        //Affichage d'une erreur si le format n'est pas en PGM
                         JOptionPane.showMessageDialog(null, "Mauvais format de fichier", "Warning", JOptionPane.WARNING_MESSAGE);
                     }
                 }
+                //Si l'image est en PPM
             } else if (ppm != null) {
                 ByteRGBPixmap tmp = null;
+                //JFileChooser permet d'ouvrir la 2eme image
                 JFileChooser fc = new JFileChooser();
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("PPM Images", "ppm");
                 fc.setFileFilter(filter);
@@ -447,29 +458,37 @@ public class MyInterfaceGraphique extends JFrame {
                 fc.setDragEnabled(false);
                 int returnval = fc.showOpenDialog(getParent());
                 if (returnval == JFileChooser.APPROVE_OPTION) {
+                    //Si la 2eme est PPM
                     if (fc.getSelectedFile().toString().endsWith(".ppm")) {
                         try {
                             tmp = new ByteRGBPixmap(fc.getSelectedFile().getAbsolutePath());
                         } catch (IOException e1) {
                             e1.printStackTrace();
                         }
+                        //Vérification si la dimension des deux images est la même, affichage d'un warning si non
                         if(tmp.width != ppm.width || tmp.height != ppm.height) {
                             JOptionPane.showMessageDialog(null, "Mauvaises dimensions de l'image", "Warning", JOptionPane.WARNING_MESSAGE);
                         } else {
+                            //Application de l'opérateur si tout est ok
                             ppm = MyClassPPM.and(ppm, tmp);
                             label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
                         }
                     } else {
+                        //Affichage d'une erreur si le format n'est pas en PGM
                         JOptionPane.showMessageDialog(null, "Mauvais format de fichier", "Warning", JOptionPane.WARNING_MESSAGE);
                     }
                 }
             }
         };
         miAnd.addActionListener(alAnd);
+
+        //Applique l'opérateur OU entre deux images
         miOr = new JMenuItem("Or");
         ActionListener alOr = e -> {
+            //Si l'image est en PGM
             if (pgm != null) {
                 ShortPixmap tmp = null;
+                //JFileChooser permet d'ouvrir la 2eme image
                 JFileChooser fc = new JFileChooser();
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("PGM Images", "pgm");
                 fc.setFileFilter(filter);
@@ -479,25 +498,31 @@ public class MyInterfaceGraphique extends JFrame {
                 fc.setDragEnabled(false);
                 int returnval = fc.showOpenDialog(getParent());
                 if (returnval == JFileChooser.APPROVE_OPTION) {
+                    //Si la 2eme est PGM
                     if (fc.getSelectedFile().toString().endsWith(".pgm")) {
                         try {
                             tmp = new ShortPixmap(fc.getSelectedFile().getAbsolutePath());
                         } catch (IOException e1) {
                             e1.printStackTrace();
                         }
+                        //Vérification si la dimension des deux images est la même, affichage d'un warning si non
                         if(tmp.width != pgm.width || tmp.height != pgm.height) {
                             JOptionPane.showMessageDialog(null, "Mauvaises dimensions de l'image", "Warning", JOptionPane.WARNING_MESSAGE);
                         }
                         else {
+                            //Application de l'opérateur si tout est ok
                             pgm = new ShortPixmap(pgm.width, pgm.height, MyClassPGM.or(pgm.data, tmp.data));
                             label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
                         }
                     } else {
+                        //Affichage d'une erreur si le format n'est pas en PGM
                         JOptionPane.showMessageDialog(null, "Mauvais format de fichier", "Warning", JOptionPane.WARNING_MESSAGE);
                     }
                 }
+                //Si l'image est en PPM
             } else if (ppm != null) {
                 ByteRGBPixmap tmp = null;
+                //JFileChooser permet d'ouvrir la 2eme image
                 JFileChooser fc = new JFileChooser();
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("PPM Images", "ppm");
                 fc.setFileFilter(filter);
@@ -507,26 +532,105 @@ public class MyInterfaceGraphique extends JFrame {
                 fc.setDragEnabled(false);
                 int returnval = fc.showOpenDialog(getParent());
                 if (returnval == JFileChooser.APPROVE_OPTION) {
+                    //Si la 2eme est PPM
                     if (fc.getSelectedFile().toString().endsWith(".ppm")) {
                         try {
                             tmp = new ByteRGBPixmap(fc.getSelectedFile().getAbsolutePath());
                         } catch (IOException e1) {
                             e1.printStackTrace();
                         }
+                        //Vérification si la dimension des deux images est la même, affichage d'un warning si non
                         if(tmp.width != ppm.width || tmp.height != ppm.height) {
                             JOptionPane.showMessageDialog(null, "Mauvaises dimensions de l'image", "Warning", JOptionPane.WARNING_MESSAGE);
                         }
                         else {
+                            //Application de l'opérateur si tout est ok
                             ppm = MyClassPPM.or(ppm, tmp);
                             label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
                         }
                     } else {
+                        //Affichage d'une erreur si le format n'est pas en PGM
                         JOptionPane.showMessageDialog(null, "Mauvais format de fichier", "Warning", JOptionPane.WARNING_MESSAGE);
                     }
                 }
             }
         };
         miOr.addActionListener(alOr);
+
+        //Applique l'opérateur XOU entre deux images
+        miOr = new JMenuItem("Xor");
+        ActionListener alXor = e -> {
+            //Si l'image est en PGM
+            if (pgm != null) {
+                ShortPixmap tmp = null;
+                //JFileChooser permet d'ouvrir la 2eme image
+                JFileChooser fc = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("PGM Images", "pgm");
+                fc.setFileFilter(filter);
+                fc.setDialogTitle("Open");
+                fc.setCurrentDirectory(new File("./"));
+                fc.setApproveButtonText("Open");
+                fc.setDragEnabled(false);
+                int returnval = fc.showOpenDialog(getParent());
+                if (returnval == JFileChooser.APPROVE_OPTION) {
+                    //Si la 2eme est PGM
+                    if (fc.getSelectedFile().toString().endsWith(".pgm")) {
+                        try {
+                            tmp = new ShortPixmap(fc.getSelectedFile().getAbsolutePath());
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                        //Vérification si la dimension des deux images est la même, affichage d'un warning si non
+                        if(tmp.width != pgm.width || tmp.height != pgm.height) {
+                            JOptionPane.showMessageDialog(null, "Mauvaises dimensions de l'image", "Warning", JOptionPane.WARNING_MESSAGE);
+                        }
+                        else {
+                            //Application de l'opérateur si tout est ok
+                            pgm = new ShortPixmap(pgm.width, pgm.height, MyClassPGM.xor(pgm.data, tmp.data));
+                            label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
+                        }
+                    } else {
+                        //Affichage d'une erreur si le format n'est pas en PGM
+                        JOptionPane.showMessageDialog(null, "Mauvais format de fichier", "Warning", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+                //Si l'image est en PPM
+            } else if (ppm != null) {
+                ByteRGBPixmap tmp = null;
+                //JFileChooser permet d'ouvrir la 2eme image
+                JFileChooser fc = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("PPM Images", "ppm");
+                fc.setFileFilter(filter);
+                fc.setDialogTitle("Open");
+                fc.setCurrentDirectory(new File("./"));
+                fc.setApproveButtonText("Open");
+                fc.setDragEnabled(false);
+                int returnval = fc.showOpenDialog(getParent());
+                if (returnval == JFileChooser.APPROVE_OPTION) {
+                    //Si la 2eme est PPM
+                    if (fc.getSelectedFile().toString().endsWith(".ppm")) {
+                        try {
+                            tmp = new ByteRGBPixmap(fc.getSelectedFile().getAbsolutePath());
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                        //Vérification si la dimension des deux images est la même, affichage d'un warning si non
+                        if(tmp.width != ppm.width || tmp.height != ppm.height) {
+                            JOptionPane.showMessageDialog(null, "Mauvaises dimensions de l'image", "Warning", JOptionPane.WARNING_MESSAGE);
+                        }
+                        else {
+                            //Application de l'opérateur si tout est ok
+                            ppm = MyClassPPM.xor(ppm, tmp);
+                            label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
+                        }
+                    } else {
+                        //Affichage d'une erreur si le format n'est pas en PGM
+                        JOptionPane.showMessageDialog(null, "Mauvais format de fichier", "Warning", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+            }
+        };
+        miXor.addActionListener(alXor);
 
         //Ajouts de chaque sous-menu au menu
         mHisto.add(miHisto);
@@ -540,7 +644,8 @@ public class MyInterfaceGraphique extends JFrame {
 
         mLogic.add(miAnd);
         mLogic.add(miOr);
-        
+        mLogic.add(miXor);
+
         mEdit.add(mHisto);
         mEdit.add(mFiltre);
         mEdit.add(miOtsu);
