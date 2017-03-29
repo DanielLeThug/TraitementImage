@@ -1,4 +1,3 @@
-
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
@@ -63,7 +62,9 @@ public class MyInterfaceGraphique extends JFrame {
     private JMenuItem miNagao;
     private JMenuItem miMedian;
     private JMenuItem miOtsu;
-
+    private JMenuItem miAnd;
+    private JMenuItem miOr;
+    
     private JLabel label;
 
     public MyInterfaceGraphique() {
@@ -400,6 +401,110 @@ public class MyInterfaceGraphique extends JFrame {
             }
         };
         miOtsu.addActionListener(alOtsu);
+        
+        mLogique = new JMenu("Logic");
+        miAnd = new JMenuItem("And");
+        ActionListener alAnd = e -> {
+            if (pgm != null) {
+                ShortPixmap tmp = null;
+                JFileChooser fc = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("PGM Images", "pgm");
+                fc.setFileFilter(filter);
+                fc.setDialogTitle("Open");
+                fc.setCurrentDirectory(new File("./"));
+                fc.setApproveButtonText("Open");
+                fc.setDragEnabled(false);
+                int returnval = fc.showOpenDialog(getParent());
+                if (returnval == JFileChooser.APPROVE_OPTION) {
+                    if (fc.getSelectedFile().toString().endsWith(".pgm")) {
+                        try {
+                            tmp = new ShortPixmap(fc.getSelectedFile().getAbsolutePath());
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                        pgm = new ShortPixmap(pgm.width, pgm.height, MyClassPGM.and(pgm.data, tmp.data));
+                        label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Mauvais format de fichier", "Warning", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+            } else if (ppm != null) {
+                ByteRGBPixmap tmp = null;
+                JFileChooser fc = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("PPM Images", "ppm");
+                fc.setFileFilter(filter);
+                fc.setDialogTitle("Open");
+                fc.setCurrentDirectory(new File("./"));
+                fc.setApproveButtonText("Open");
+                fc.setDragEnabled(false);
+                int returnval = fc.showOpenDialog(getParent());
+                if (returnval == JFileChooser.APPROVE_OPTION) {
+                    if (fc.getSelectedFile().toString().endsWith(".ppm")) {
+                        try {
+                            tmp = new ByteRGBPixmap(fc.getSelectedFile().getAbsolutePath());
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                        ppm = MyClassPPM.and(ppm, tmp);
+                        label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Mauvais format de fichier", "Warning", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+            }
+        };
+        miAnd.addActionListener(alAnd);
+        miOr = new JMenuItem("Or");
+        ActionListener alOr = e -> {
+            if (pgm != null) {
+                ShortPixmap tmp = null;
+                JFileChooser fc = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("PGM Images", "pgm");
+                fc.setFileFilter(filter);
+                fc.setDialogTitle("Open");
+                fc.setCurrentDirectory(new File("./"));
+                fc.setApproveButtonText("Open");
+                fc.setDragEnabled(false);
+                int returnval = fc.showOpenDialog(getParent());
+                if (returnval == JFileChooser.APPROVE_OPTION) {
+                    if (fc.getSelectedFile().toString().endsWith(".pgm")) {
+                        try {
+                            tmp = new ShortPixmap(fc.getSelectedFile().getAbsolutePath());
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                        pgm = new ShortPixmap(pgm.width, pgm.height, MyClassPGM.or(pgm.data, tmp.data));
+                        label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Mauvais format de fichier", "Warning", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+            } else if (ppm != null) {
+                ByteRGBPixmap tmp = null;
+                JFileChooser fc = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("PPM Images", "ppm");
+                fc.setFileFilter(filter);
+                fc.setDialogTitle("Open");
+                fc.setCurrentDirectory(new File("./"));
+                fc.setApproveButtonText("Open");
+                fc.setDragEnabled(false);
+                int returnval = fc.showOpenDialog(getParent());
+                if (returnval == JFileChooser.APPROVE_OPTION) {
+                    if (fc.getSelectedFile().toString().endsWith(".ppm")) {
+                        try {
+                            tmp = new ByteRGBPixmap(fc.getSelectedFile().getAbsolutePath());
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                        ppm = MyClassPPM.or(ppm, tmp);
+                        label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Mauvais format de fichier", "Warning", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+            }
+        };
+        miOr.addActionListener(alOr);
 
         //Ajouts de chaque sous-menu au menu
         mHisto.add(miHisto);
@@ -411,9 +516,13 @@ public class MyInterfaceGraphique extends JFrame {
         mFiltre.add(miMedian);
         mFiltre.add(miNagao);
 
+        mLogique.add(miAnd);
+        mLogique.add(miOr);
+        
         mEdit.add(mHisto);
         mEdit.add(mFiltre);
         mEdit.add(miOtsu);
+        mEdit.add(mLogique);
 
         mb.add(mFile);
         mb.add(mEdit);
