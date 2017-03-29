@@ -44,4 +44,18 @@ public class MyClassPPM {
                                                       Pixmap.getBytes(MyClassPGM.filtreNagao(bp.width, bp.height, bp.g.getShorts())), 
                                                       Pixmap.getBytes(MyClassPGM.filtreNagao(bp.width, bp.height, bp.b.getShorts())));
     }
+    
+    //Fonction qui applique l'opération logique ET sur les 3 composantes r, g et b par rapport à une autre image de même taille.
+    public static ByteRGBPixmap and(ByteRGBPixmap bp, ByteRGBPixmap tmp) {
+        return new ByteRGBPixmap(bp.width, bp.height, Pixmap.getBytes(MyClassPGM.and(bp.r.getShorts(), tmp.r.getShorts())), 
+                                                      Pixmap.getBytes(MyClassPGM.and(bp.g.getShorts(), tmp.g.getShorts())), 
+                                                      Pixmap.getBytes(MyClassPGM.and(bp.b.getShorts(), tmp.b.getShorts())));
+    }
+    
+    //Fonction qui applique l'opération logique AND sur les 3 composantes r, g et b par rapport à une autre image de même taille.
+    public static ByteRGBPixmap or(ByteRGBPixmap bp, ByteRGBPixmap tmp) {
+        return new ByteRGBPixmap(bp.width, bp.height, Pixmap.getBytes(MyClassPGM.or(bp.r.getShorts(), tmp.r.getShorts())), 
+                                                      Pixmap.getBytes(MyClassPGM.or(bp.g.getShorts(), tmp.g.getShorts())), 
+                                                      Pixmap.getBytes(MyClassPGM.or(bp.b.getShorts(), tmp.b.getShorts())));
+    }
 }
