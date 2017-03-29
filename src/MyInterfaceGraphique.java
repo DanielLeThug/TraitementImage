@@ -55,6 +55,7 @@ public class MyInterfaceGraphique extends JFrame {
     private JMenu mEdit;
     private JMenu mHisto;
     private JMenu mFiltre;
+    private JMenu mLogic;
     private JMenuItem miHisto;
     private JMenuItem miEtirement;
     private JMenuItem miEgalisation;
@@ -253,7 +254,7 @@ public class MyInterfaceGraphique extends JFrame {
                 tmp.getContentPane().setBackground(Color.BLACK);
                 tmp.setPreferredSize(new Dimension(pgmHisto.width + 50, pgmHisto.height + 50));
                 tmp.pack();
-                tmp.setDefaultCloseOperation(DISPOSE_ON_Close);
+                tmp.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
                 tmp.setVisible(true);
             //Cas d'une image ppm
             } else if (ppm != null) {
@@ -266,7 +267,7 @@ public class MyInterfaceGraphique extends JFrame {
                 tmp.getContentPane().setBackground(Color.BLACK);
                 tmp.setPreferredSize(new Dimension(pgmHisto.width + 50, pgmHisto.height + 50));
                 tmp.pack();
-                tmp.setDefaultCloseOperation(DISPOSE_ON_Close);
+                tmp.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
                 tmp.setVisible(true);
             }
         };
@@ -402,7 +403,7 @@ public class MyInterfaceGraphique extends JFrame {
         };
         miOtsu.addActionListener(alOtsu);
         
-        mLogique = new JMenu("Logic");
+        mLogic = new JMenu("Logic");
         miAnd = new JMenuItem("And");
         ActionListener alAnd = e -> {
             if (pgm != null) {
@@ -516,13 +517,13 @@ public class MyInterfaceGraphique extends JFrame {
         mFiltre.add(miMedian);
         mFiltre.add(miNagao);
 
-        mLogique.add(miAnd);
-        mLogique.add(miOr);
+        mLogic.add(miAnd);
+        mLogic.add(miOr);
         
         mEdit.add(mHisto);
         mEdit.add(mFiltre);
         mEdit.add(miOtsu);
-        mEdit.add(mLogique);
+        mEdit.add(mLogic);
 
         mb.add(mFile);
         mb.add(mEdit);
@@ -542,7 +543,7 @@ public class MyInterfaceGraphique extends JFrame {
         //Affichage de la fenêtre
         setPreferredSize(new Dimension(300, 150));
         pack();
-        setDefaultCloseOperation(EXIT_ON_Close);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
     }
 
