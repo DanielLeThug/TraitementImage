@@ -260,8 +260,11 @@ public class MyClassPGM {
             double min = 100;
             double dif;
             for(short j = 0; j < 256; j++) {
-                dif = Math.abs(hist1[i] - hist2[j]);
-                if(dif < min) tabModif[i] = j;
+                dif = Math.abs(hist3[i] - hist4[j]);
+                if(dif < min) {
+                    tabModif[i] = j;
+                    min = dif;
+                }
             }
         }
 
