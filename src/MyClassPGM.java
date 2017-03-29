@@ -26,9 +26,9 @@ public class MyClassPGM {
             {
                 if (j < h[i] * 256 / max)
                 {
-                    res[(255 - j) * 256 + i] = 0;
-                } else {
                     res[(255 - j) * 256 + i] = 255;
+                } else {
+                    res[(255 - j) * 256 + i] = 0;
                 }
             }
         }

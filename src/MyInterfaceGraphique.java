@@ -66,7 +66,7 @@ public class MyInterfaceGraphique extends JFrame {
     private JLabel label;
 
     public MyInterfaceGraphique() {
-        super("Ida et Chackal");
+        super("Traitement d'images");
 
         label = new JLabel();
 
@@ -207,44 +207,23 @@ public class MyInterfaceGraphique extends JFrame {
                 labelHisto.setIcon(new ImageIcon(bufferImagePGM(pgmHisto)));
                 labelHisto.setHorizontalAlignment(JLabel.CENTER);
                 tmp.add(labelHisto);
+                tmp.getContentPane().setBackground(Color.BLACK);
                 tmp.setPreferredSize(new Dimension(pgmHisto.width + 50, pgmHisto.height + 50));
                 tmp.pack();
                 tmp.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
                 tmp.setVisible(true);
             } else if (ppm != null) {
-                ///////////////// ROUGE
-                ShortPixmap pgmHistoR = new ShortPixmap(256, 256, MyClassPGM.histogramme(ppm.r.getShorts()));
-                JFrame tmpR = new JFrame("Histogramme du rouge");
-                JLabel labelHistoR = new JLabel();
-                labelHistoR.setIcon(new ImageIcon(bufferImagePGM(pgmHistoR)));
-                labelHistoR.setHorizontalAlignment(JLabel.CENTER);
-                tmpR.add(labelHistoR);
-                tmpR.setPreferredSize(new Dimension(pgmHistoR.width + 50, pgmHistoR.height + 50));
-                tmpR.pack();
-                tmpR.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                tmpR.setVisible(true);
-                ///////////////////// VERT
-                ShortPixmap pgmHistoV = new ShortPixmap(256, 256, MyClassPGM.histogramme(ppm.g.getShorts()));
-                JFrame tmpV = new JFrame("Histogramme du vert");
-                JLabel labelHistoV = new JLabel();
-                labelHistoV.setIcon(new ImageIcon(bufferImagePGM(pgmHistoV)));
-                labelHistoV.setHorizontalAlignment(JLabel.CENTER);
-                tmpV.add(labelHistoV);
-                tmpV.setPreferredSize(new Dimension(pgmHistoV.width + 50, pgmHistoV.height + 50));
-                tmpV.pack();
-                tmpV.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                tmpV.setVisible(true);
-                ///////////////////// BLEU
-                ShortPixmap pgmHistoB = new ShortPixmap(256, 256, MyClassPGM.histogramme(ppm.b.getShorts()));
-                JFrame tmpB = new JFrame("Histogramme du bleu");
-                JLabel labelHistoB = new JLabel();
-                labelHistoB.setIcon(new ImageIcon(bufferImagePGM(pgmHistoB)));
-                labelHistoB.setHorizontalAlignment(JLabel.CENTER);
-                tmpB.add(labelHistoB);
-                tmpB.setPreferredSize(new Dimension(pgmHistoB.width + 50, pgmHistoB.height + 50));
-                tmpB.pack();
-                tmpB.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                tmpB.setVisible(true);
+                ByteRGBPixmap pgmHisto = new ByteRGBPixmap(256, 256, Pixmap.getBytes(MyClassPGM.histogramme(ppm.r.getShorts())), Pixmap.getBytes(MyClassPGM.histogramme(ppm.g.getShorts())), Pixmap.getBytes(MyClassPGM.histogramme(ppm.b.getShorts())));
+                JFrame tmp = new JFrame("Histogramme");
+                JLabel labelHisto = new JLabel();
+                labelHisto.setIcon(new ImageIcon(bufferImagePPM(pgmHisto)));
+                labelHisto.setHorizontalAlignment(JLabel.CENTER);
+                tmp.add(labelHisto);
+                tmp.getContentPane().setBackground(Color.BLACK);
+                tmp.setPreferredSize(new Dimension(pgmHisto.width + 50, pgmHisto.height + 50));
+                tmp.pack();
+                tmp.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                tmp.setVisible(true);
             }
         };
         miHisto.addActionListener(alHisto);
