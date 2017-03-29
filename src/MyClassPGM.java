@@ -467,7 +467,7 @@ public class MyClassPGM {
         }
         return temp / v.length;
     }
-}    
+    
     /**
      * Applique l'opération AND sur l'image img1 à partir de l'image img2 de même taille.
      * @param img1 image à modifier
