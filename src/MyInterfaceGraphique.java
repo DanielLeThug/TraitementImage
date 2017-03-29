@@ -111,10 +111,10 @@ public class MyInterfaceGraphique extends JFrame {
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
-                }
-
-                //Cas d'une image ppm
-                if (fc.getSelectedFile().toString().endsWith(".ppm")) {
+                    path = fc.getSelectedFile().getAbsolutePath();
+                    
+                    //Cas d'une image ppm
+                } else if (fc.getSelectedFile().toString().endsWith(".ppm")) {
                     try {
                         pgm = null;
                         //Récupération de l'image
@@ -132,6 +132,9 @@ public class MyInterfaceGraphique extends JFrame {
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
+                    path = fc.getSelectedFile().getAbsolutePath();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Mauvais format de fichier", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
                 path = fc.getSelectedFile().getAbsolutePath();
             }
@@ -324,7 +327,7 @@ public class MyInterfaceGraphique extends JFrame {
                         pgm = new ShortPixmap(pgm.width, pgm.height, MyClassPGM.specificationHisto(pgm.data, tmp.data));
                         label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
                     } else {
-                        JOptionPane.showMessageDialog(null, "Mauvais format de fichier", "Warning", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Mauvais format de fichier", "Warning", JOptionPane.INFORMATION_MESSAGE);
                     }
                 }
             //Cas d'une imge ppm
@@ -423,8 +426,12 @@ public class MyInterfaceGraphique extends JFrame {
                         } catch (IOException e1) {
                             e1.printStackTrace();
                         }
-                        pgm = new ShortPixmap(pgm.width, pgm.height, MyClassPGM.and(pgm.data, tmp.data));
-                        label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
+                        if(tmp.width != pgm.width || tmp.height != pgm.height) {
+                            JOptionPane.showMessageDialog(null, "Mauvaises dimensions de l'image", "Warning", JOptionPane.WARNING_MESSAGE);
+                        } else {
+                            pgm = new ShortPixmap(pgm.width, pgm.height, MyClassPGM.and(pgm.data, tmp.data));
+                            label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
+                        }
                     } else {
                         JOptionPane.showMessageDialog(null, "Mauvais format de fichier", "Warning", JOptionPane.WARNING_MESSAGE);
                     }
@@ -446,8 +453,12 @@ public class MyInterfaceGraphique extends JFrame {
                         } catch (IOException e1) {
                             e1.printStackTrace();
                         }
-                        ppm = MyClassPPM.and(ppm, tmp);
-                        label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
+                        if(tmp.width != ppm.width || tmp.height != ppm.height) {
+                            JOptionPane.showMessageDialog(null, "Mauvaises dimensions de l'image", "Warning", JOptionPane.WARNING_MESSAGE);
+                        } else {
+                            ppm = MyClassPPM.and(ppm, tmp);
+                            label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
+                        }
                     } else {
                         JOptionPane.showMessageDialog(null, "Mauvais format de fichier", "Warning", JOptionPane.WARNING_MESSAGE);
                     }
@@ -474,8 +485,13 @@ public class MyInterfaceGraphique extends JFrame {
                         } catch (IOException e1) {
                             e1.printStackTrace();
                         }
-                        pgm = new ShortPixmap(pgm.width, pgm.height, MyClassPGM.or(pgm.data, tmp.data));
-                        label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
+                        if(tmp.width != pgm.width || tmp.height != pgm.height) {
+                            JOptionPane.showMessageDialog(null, "Mauvaises dimensions de l'image", "Warning", JOptionPane.WARNING_MESSAGE);
+                        }
+                        else {
+                            pgm = new ShortPixmap(pgm.width, pgm.height, MyClassPGM.or(pgm.data, tmp.data));
+                            label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
+                        }
                     } else {
                         JOptionPane.showMessageDialog(null, "Mauvais format de fichier", "Warning", JOptionPane.WARNING_MESSAGE);
                     }
@@ -497,8 +513,13 @@ public class MyInterfaceGraphique extends JFrame {
                         } catch (IOException e1) {
                             e1.printStackTrace();
                         }
-                        ppm = MyClassPPM.or(ppm, tmp);
-                        label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
+                        if(tmp.width != ppm.width || tmp.height != ppm.height) {
+                            JOptionPane.showMessageDialog(null, "Mauvaises dimensions de l'image", "Warning", JOptionPane.WARNING_MESSAGE);
+                        }
+                        else {
+                            ppm = MyClassPPM.or(ppm, tmp);
+                            label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
+                        }
                     } else {
                         JOptionPane.showMessageDialog(null, "Mauvais format de fichier", "Warning", JOptionPane.WARNING_MESSAGE);
                     }
