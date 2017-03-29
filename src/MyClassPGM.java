@@ -6,7 +6,7 @@ import java.util.Arrays;
  */
 public class MyClassPGM {
 
-    public static short[] histogramme(int width, short[] data) {
+    public static short[] histogramme(short[] data) {
         long[] h = getHistogramme(data);
         /*for(int i = 0 ; i < 256 ; i++)
             if(h[i] != 0 )
