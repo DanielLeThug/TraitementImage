@@ -50,6 +50,7 @@ public class MyInterfaceGraphique extends JFrame {
     private JMenuItem miOpen;
     private JMenuItem miSave;
     private JMenuItem miSaveAs;
+    private JMenuItem miReset;
     private JMenuItem miClose;
 
     private JMenu mEdit;
@@ -100,6 +101,7 @@ public class MyInterfaceGraphique extends JFrame {
                         mEdit.setEnabled(true);
                         miSave.setEnabled(true);
                         miSaveAs.setEnabled(true);
+                        miReset.setEnabled(true);
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
@@ -117,6 +119,7 @@ public class MyInterfaceGraphique extends JFrame {
                         mEdit.setEnabled(true);
                         miSave.setEnabled(true);
                         miSaveAs.setEnabled(true);
+                        miReset.setEnabled(true);
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
@@ -179,11 +182,32 @@ public class MyInterfaceGraphique extends JFrame {
         miSaveAs.addActionListener(alSaveAs);
         mFile.add(miSaveAs);
 
+        miReset = new JMenuItem("Reset");
+        ActionListener alReset = e -> {
+            if (pgm != null) {
+                try {
+                    pgm = new ShortPixmap(path);
+                    label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
+                } catch (IOException e1) {
+                        e1.printStackTrace();
+                }
+            }
+            else if (ppm != null) {
+                try {
+                    ppm = new ByteRGBPixmap(path);
+                    label.setIcon(new ImageIcon(bufferImagePPM(ppm)));
+                } catch (IOException e1) {
+                        e1.printStackTrace();
+                }
+            }
+        };
+        miReset.addActionListener(alReset);
+        mFile.add(miReset);
+
         miClose = new JMenuItem("Close");
         //Add Actions ?
         ActionListener alClose = e -> {
             if (isDisplayable()) {
-                // Other stuff if needed like do you wanna save ? etc
                 dispose();
             }
         };
@@ -192,8 +216,8 @@ public class MyInterfaceGraphique extends JFrame {
 
         mEdit = new JMenu("Edit");
 
-        mHisto = new JMenu("Histo"); // A MODIFIER
-        miHisto = new JMenuItem("Histogramme");
+        mHisto = new JMenu("Histogramme");
+        miHisto = new JMenuItem("Afficher");
         miEtirement = new JMenuItem("Étirement");
         miEgalisation = new JMenuItem("Égalisation");
         miSpecification = new JMenuItem("Spécification");
@@ -363,6 +387,7 @@ public class MyInterfaceGraphique extends JFrame {
 
         miSave.setEnabled(false);
         miSaveAs.setEnabled(false);
+        miReset.setEnabled(false);
 
         setPreferredSize(new Dimension(300, 150));
         pack();
