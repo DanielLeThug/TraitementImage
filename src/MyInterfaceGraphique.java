@@ -558,7 +558,7 @@ public class MyInterfaceGraphique extends JFrame {
         miOr.addActionListener(alOr);
 
         //Applique l'opérateur XOU entre deux images
-        miOr = new JMenuItem("Xor");
+        miXor = new JMenuItem("Xor");
         ActionListener alXor = e -> {
             //Si l'image est en PGM
             if (pgm != null) {
