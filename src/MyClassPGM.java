@@ -11,16 +11,21 @@ public class MyClassPGM {
         /*for(int i = 0 ; i < 256 ; i++)
             if(h[i] != 0 )
                 System.out.println(i+" : "+ h[i]);*/
-        int max = 0;
-        for (int i = 0; i < 256; i++) {
-            if (h[max] < h[i]) {
-                max = i;
+        long max = 0;
+        for (int i = 0; i < 256; i++) 
+        {
+            if (max < h[i]) 
+            {
+                max = h[i];
             }
         }
         short[] res = new short[256*256];
-        for (int i = 0; i < 256; i++) {
-            for (int j = 0; j < 256; j++) {
-                if (j < h[i] * 256 / max) {
+        for (int i = 0; i < 256; i++) 
+        {
+            for (int j = 0; j < 256; j++) 
+            {
+                if (j < h[i] * 256 / max)
+                {
                     res[(255 - j) * 256 + i] = 255;
                 } else {
                     res[(255 - j) * 256 + i] = 0;
@@ -277,10 +282,9 @@ public class MyClassPGM {
     public static short[] filtreMedian(int width, int height, short[] data) { // on peut mettre le nombre de cases en param (carré de 3pix par défaut mais pourrait être 5/7/etc
         short[] newSP = data;
         short[] v = new short[9];
-        short r = 0;
         for (int i = 1; i < width - 1; i++) {
             for (int j = 1; j < height - 1; j++) {
-                r = 0;
+                short r = 0;
                 for (int k = i - 1; k < i + 2; k++) {
                     for (int l = j - 1; l < j + 2; l++) {
                         v[r++] = data[l * width + k];
