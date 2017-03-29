@@ -201,8 +201,16 @@ public class MyInterfaceGraphique extends JFrame {
         // ACTIONLISTENER TO DO
         ActionListener alHisto = e -> {
             if (pgm != null) {
-                pgm = new ShortPixmap(256, 256, MyClassPGM.histogramme(pgm.width, pgm.data));
-                label.setIcon(new ImageIcon(bufferImagePGM(pgm)));
+                ShortPixmap pgmHisto = new ShortPixmap(256, 256, MyClassPGM.histogramme(pgm.width, pgm.data));
+                JFrame tmp = new JFrame("Histogramme");
+                JLabel labelHisto = new JLabel();
+                labelHisto.setIcon(new ImageIcon(bufferImagePGM(pgmHisto)));
+                labelHisto.setHorizontalAlignment(JLabel.CENTER);
+                tmp.add(labelHisto);
+                tmp.setPreferredSize(new Dimension(pgmHisto.width + 50, pgmHisto.height + 50));
+                tmp.pack();
+                tmp.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                tmp.setVisible(true);
             } else if (ppm != null) {
                 //ppm = MyClassPPM.histogramme();
                 //label.setIcon(new ImageIcon(bufferImagePGM(ppm)));

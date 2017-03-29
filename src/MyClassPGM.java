@@ -8,6 +8,9 @@ public class MyClassPGM {
 
     public static short[] histogramme(int width, short[] data) {
         long[] h = getHistogramme(data);
+        /*for(int i = 0 ; i < 256 ; i++)
+            if(h[i] != 0 )
+                System.out.println(i+" : "+ h[i]);*/
         int max = 0;
         for (int i = 0; i < 256; i++) {
             if (h[max] < h[i]) {
@@ -63,7 +66,7 @@ public class MyClassPGM {
         for (int i = 0; i < data.length; i++) {
             hist[data[i]]++;
         }
-
+        // TODO utiliser un canevas pour afficher l'histo ?
         return hist;
     }
 
