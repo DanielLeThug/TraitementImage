@@ -235,8 +235,8 @@ public class MyInterfaceGraphique extends JFrame {
                 tmpV.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
                 tmpV.setVisible(true);
                 ///////////////////// BLEU
-                ShortPixmap pgmHistoB = new ShortPixmap(256, 256, MyClassPGM.histogramme(ppm.g.getShorts()));
-                JFrame tmpB = new JFrame("Histogramme du vert");
+                ShortPixmap pgmHistoB = new ShortPixmap(256, 256, MyClassPGM.histogramme(ppm.b.getShorts()));
+                JFrame tmpB = new JFrame("Histogramme du bleu");
                 JLabel labelHistoB = new JLabel();
                 labelHistoB.setIcon(new ImageIcon(bufferImagePGM(pgmHistoB)));
                 labelHistoB.setHorizontalAlignment(JLabel.CENTER);
