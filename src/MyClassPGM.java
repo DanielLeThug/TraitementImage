@@ -493,5 +493,18 @@ public class MyClassPGM {
                 img1[i] = (short) (img1[i] | img2[i]);
         return img1;
     }
+    
+    /**
+     * Applique l'opération XOR sur l'image img1 à partir de l'image img2 de même taille.
+     * @param img1 image à modifier
+     * @param img2 image modifiant l'image à modifier
+     * @return l'image modifiée img1
+     */
+    public static short[] xor(short[] img1, short[] img2) {
+        if(img1.length == img2.length)
+            for(int i = 0; i < img1.length; i++)
+                img1[i] = (short) (img1[i] ^ img2[i]);
+        return img1;
+    }
 
 }
